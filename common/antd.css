@@ -1,0 +1,10 @@
+.ant-btn-fac {
+  background-color: #00bdce;
+  color: #fff;
+  border: 1px solid #00bdce;
+}
+.ant-btn-fac:hover, .ant-btn-fac:focus {
+  background-color: #008e9b;
+  color: #fff;
+  border: 1px solid #008e9b;
+}
