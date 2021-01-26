@@ -45,7 +45,7 @@ const api_list_output = {
           "name":"client test",
           "client_profile": {
             "id": "987",
-            "gender":null
+            "gender": "male"
           },
           "current_address":{
             "id": "12345",
@@ -56,25 +56,66 @@ const api_list_output = {
           },
           "default_profile":{
             "id":"106809",
-            "organisation":null,
-            "picture":null
+            "organisation":{
+              "id": "123",
+              "name": "Care Support"
+            },
+            "picture": {
+              "id": "199",
+              "url": "sssss"
+            }
           }
+        },
+        "carer":{
+          "id":"65812",
+          "slug":"client-test",
+          "first_name":"client",
+          "last_name":"test",
+          "name":"client test",
+          "client_profile": {
+            "id": "987",
+            "gender": "male"
+          },
+          "current_address":{
+            "id": "12345",
+            "address":"164 Barrow St, Coburg VIC 3058, Australia",
+            "suburb":"Coburg",
+            "postcode":"3058",
+            "state":"Victoria"
+          },
+          "default_profile":{
+            "id":"106809",
+            "organisation":{
+              "id": "123",
+              "name": "Care Support"
+            },
+            "picture": {
+              "id": "199",
+              "url": "sssss"
+            }
+          },
+          "team_members": [
+            {"id": "222", "name": "full name", "phone": "0415760459", "photo": {"id": "111", "url": "mmmm" }}
+          ]
         }
       }
     ]
   }
 }
-const getParameterForRecordSchema = () => {
+const getParameterForRecordSchema = (schema, property) => {
   var processStrategyObject = [];
   var processStrategyReturn = [];
   var processStrategyEntity = [];
-  const apiResults = Object.values(api_list_output)[0].results[0];
-  for (const property in apiResults) {
+  for (const property in schema) {
     var propertyToCamelCaseString = toCamelCaseString(property);
-
-    if (typeof apiResults[property] === 'object') {
-      processStrategyObject.push(`${property}: ${property}Id`);
-      processStrategyEntity.push(`${property}Id: ${property}Schema`);
+    if (Array.isArray(schema[property])) {
+      processStrategyObject.push(`${property}: ${propertyToCamelCaseString}Ids`);
+      processStrategyEntity.push(`${propertyToCamelCaseString}Ids: [${propertyToCamelCaseString}Schema]`);
+      processStrategyReturn.push(`${propertyToCamelCaseString}Ids`);
+    }
+    else if (typeof schema[property] === 'object') {
+      processStrategyObject.push(`${property}: ${propertyToCamelCaseString}Id`);
+      processStrategyEntity.push(`${propertyToCamelCaseString}Id: ${propertyToCamelCaseString}Schema`);
       processStrategyReturn.push(`${propertyToCamelCaseString}Id`);
     }
     else {
@@ -83,14 +124,39 @@ const getParameterForRecordSchema = () => {
     }
   }
   return ({ 
-    'processStrategyObject': `${processStrategyObject.join(', ')}`,
-    'processStrategyReturn': `${processStrategyReturn.join(', ')}`,
-    'processStrategyEntity': `${processStrategyEntity.join(', ')}`,
-    'recordsKey': Object.keys(api_list_output)[0]
+    'processStrategyObject': `${processStrategyObject.join(', \n\t\t')}`,
+    'processStrategyReturn': `${processStrategyReturn.join(', \n\t\t')}`,
+    'processStrategyEntity': `${processStrategyEntity.join(', \n\t\t')}`,
+    'recordsKey': property
   });
 }
-const getFilesToWriteParams = () => {
+const getFilesToWriteSchemaParams = (arguments, schema, return_params = []) => {
+  // return null;
+  //console.error("schema: ", schema);
+  for (const property in schema) {
+    var propertyToCamelCaseString = toCamelCaseString(property);
+    if (!!schema[property] && typeof schema[property] === 'object') {
+      if (Array.isArray(schema[property])) {
+        var objectToconvert = schema[property][0];       
+      }
+      else {
+        var objectToconvert = schema[property];       
+      }
+      return_params.push({
+        source: 'ComponentTemplate/schemas/RecordSchema.js',
+        destination: `./components/${toCamelCaseString(arguments.componentName)}/schemas/${propertyToCamelCaseString}Schema.js`,
+        parameters: { 
+          data: getParameterForRecordSchema(objectToconvert, property)
+        }
+      });
+      
+        console.error("schema[property]: ", objectToconvert);
 
+        getFilesToWriteSchemaParams(arguments, objectToconvert, return_params);
+    }
+    
+  }
+  return return_params;
 }
 
 var filesToWrite = (arguments) => {
@@ -140,13 +206,11 @@ var filesToWrite = (arguments) => {
       source: 'ComponentTemplate/schemas/RecordSchema.js',
       destination: `./components/${toCamelCaseString(arguments.componentName)}/schemas/RecordSchema.js`,
       parameters: { 
-        data: getParameterForRecordSchema()
+        data: getParameterForRecordSchema(Object.values(api_list_output)[0].results[0], Object.keys(api_list_output)[0])
       }
-    },
-
-    getFilesToWriteParams()
-
+    }
   ]
+  .concat(getFilesToWriteSchemaParams(arguments, Object.values(api_list_output)[0].results[0]))
 }
 
 const createComponent = (arguments) => {
@@ -165,7 +229,6 @@ const createComponent = (arguments) => {
   //createType(api_list_output.my_team_members.results);
   var returnValues = '';
   const recordApiOutput = Object.values(api_list_output)[0].results[0];
-  console.error("recordApiOutput: ", recordApiOutput);
   for (const property in recordApiOutput) {
     if (typeof recordApiOutput[property] === 'object') {
       var returnValues = `${returnValues} ${property}: ${property}Id,`
@@ -178,15 +241,13 @@ const createComponent = (arguments) => {
   //     var returnValues = `${returnValues}, ${key}: ${key}Id`
   //   }
   // });
-  console.error(returnValues);
+  //console.error("files_to_right: ",filesToWrite(arguments));
   filesToWrite(arguments).forEach(fileToWrite => {
     fs.readFile(fileToWrite.source, 'utf8', function (err,data) {
       if (err) {
         return console.info(err);
       }
       const template = Handlebars.compile(data);
-      console.info("parameters: ", fileToWrite.destination)
-      console.info("parameters: ", fileToWrite.parameters)
       const contents = template(fileToWrite.parameters);
       fs.writeFileSync(
         fileToWrite.destination,

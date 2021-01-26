@@ -8,7 +8,10 @@ function idAttribute(record: DenormalizedRecord): string {
 }
 
 function processStrategy(record: DenormalizedRecord): Object {
-  const { {{ data.processStrategyObject }}, ...rest } = record;
+  const { 
+    {{ data.processStrategyObject }}, 
+    ...rest 
+  } = record;
 
   return {
     {{ data.processStrategyReturn }},
