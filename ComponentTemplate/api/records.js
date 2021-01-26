@@ -15,25 +15,25 @@ import {
 import { normalize } from 'normalizr';
 
 
-import RecordMembersApiSchema from '../schemas/RecordMembersApiSchema';
+import {{ componentName }}ApiSchema from '../schemas/{{ componentName }}ApiSchema';
 
-export async function fetchRecords(queryParams: String = ''): Promise<*> {
+export async function fetch{{ componentName }}(queryParams: String = ''): Promise<*> {
   const url = `${DATA_READ_ENDPOINT_GET}?${queryParams}`;
   const response = await getJSON(url);
   if (response.status < 500 && typeof response.data === 'object') {
-    return normalize(response.data, RecordMembersApiSchema);
+    return normalize(response.data, {{ componentName }}ApiSchema);
   }
   return false;
 }
 
-export async function getRecord(): Promise<*> {
+export async function get{{ componentName }}(): Promise<*> {
   const url = '/my_team/my_team_members.json';
   const data = {};
   const response = await getJSON(url, data);
   return response.data;
 }
 
-export async function AddRecord(
+export async function sendAdd{{ componentName }}(
   props: Object
 ): Promise<*> {
   const data = {
@@ -51,7 +51,7 @@ export async function AddRecord(
   return parse_json;
 }
 
-export async function sendRemoveFromRecord(id: string): Promise<*> {
+export async function sendRemove{{ componentName }}(id: string): Promise<*> {
   const url = '/my_team/remove_from_my_team.json' + '?id=' + id;
   const response = await getJSON(url);
   console.log('response: ', response);
