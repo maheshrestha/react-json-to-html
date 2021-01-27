@@ -1,0 +1,20 @@
+export default [
+  'eonasdan-datetimepicker',
+  'fastclick',
+  'hammerjs',
+  'inputmask',
+  'inputmask.date.extensions',
+  'inputmask.dependencyLib',
+  'inputmask.extensions',
+  'inputmask.numeric.extensions',
+  'inputmask.phone',
+  'inputmask.phone.extensions',
+  'inputmask.regex.extensions',
+  'jquery-toggles',
+  'jquery.inputmask',
+  'jquery.slicknav',
+  'moment',
+  'select2',
+  'slick-carousel',
+  'timeago.js'
+];

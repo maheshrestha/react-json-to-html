@@ -68,7 +68,7 @@ program
   .description('Delete Components')
   .action(() => {
     fse.remove("./common", { recursive: true });
-    fse.remove("./components", { recursive: true });
+    fse.remove("./src", { recursive: true });
   });
 
 program.parse(process.argv);

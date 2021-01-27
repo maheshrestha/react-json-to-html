@@ -1,7 +1,7 @@
 // @flow
-import RecordSchema from './RecordSchema';
-const RecordsApiSchema = {
-  {{recordsKey}}: { results: [RecordSchema] }
+import {{ toCamelCaseAndCapitalize recordsKey }}Schema from './{{ toCamelCaseAndCapitalize recordsKey }}Schema';
+const {{ toCamelCaseAndCapitalize recordsKey }}sApiSchema = {
+  {{recordsKey}}: { results: [{{ toCamelCaseAndCapitalize recordsKey }}Schema] }
 };
 
-export default RecordsApiSchema;
+export default {{ toCamelCaseAndCapitalize recordsKey }}sApiSchema;

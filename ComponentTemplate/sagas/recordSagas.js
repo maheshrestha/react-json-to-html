@@ -27,9 +27,9 @@ function* load{{ componentName }}Saga(): Saga<void> {
   );
   if (data) {
     const { result, entities } = data;
-    const { {{ recordKey }} = {}, users = {} } = entities;
+    const { {{ recordKey }} = {} } = entities;
     yield put(add{{ componentName }}({{ recordKey}}));
-    yield put(addUsers(users));
+    //yield put(addUsers(users));
     const {
       {{ recordKey }}: { results: ids }
     } = result;

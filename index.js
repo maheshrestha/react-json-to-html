@@ -13,43 +13,43 @@ const { toCamelCaseString, capitalize } = require('./helper')
 
 function makeDirs(directoryName) {
   // Here we want to make sure our directories exist.
-  fs.mkdirSync(`./components/${directoryName}`, { recursive: true });
-  fs.mkdirSync(`./components/${directoryName}/api`, { recursive: true });
-  fs.mkdirSync(`./components/${directoryName}/components`, { recursive: true });
-  //fs.mkdirSync(`./components/${directoryName}/containers`, { recursive: true });
-  //fs.mkdirSync(`./components/${directoryName}/definations`, { recursive: true });
-  //fs.mkdirSync(`./components/${directoryName}/ducks`, { recursive: true });
-  fs.mkdirSync(`./components/${directoryName}/sagas`, { recursive: true });
-  fs.mkdirSync(`./components/${directoryName}/schemas`, { recursive: true });
-  //fs.mkdirSync(`./components/${directoryName}/store`, { recursive: true });
-  //fs.mkdirSync(`./components/${directoryName}/style`, { recursive: true });
-  fs.mkdirSync(`./components/${directoryName}/types`, { recursive: true });
+  fs.mkdirSync(`./src/${directoryName}`, { recursive: true });
+  fs.mkdirSync(`./src/${directoryName}/api`, { recursive: true });
+  fs.mkdirSync(`./src/${directoryName}/components`, { recursive: true });
+  //fs.mkdirSync(`./src/${directoryName}/containers`, { recursive: true });
+  //fs.mkdirSync(`./src/${directoryName}/definations`, { recursive: true });
+  //fs.mkdirSync(`./src/${directoryName}/ducks`, { recursive: true });
+  fs.mkdirSync(`./src/${directoryName}/sagas`, { recursive: true });
+  fs.mkdirSync(`./src/${directoryName}/schemas`, { recursive: true });
+  //fs.mkdirSync(`./src/${directoryName}/store`, { recursive: true });
+  //fs.mkdirSync(`./src/${directoryName}/style`, { recursive: true });
+  fs.mkdirSync(`./src/${directoryName}/types`, { recursive: true });
 }
 
 var filesToWrite = (arguments) => {
   return [
     {
       source: 'ComponentTemplate/initializer.js',
-      destination: `./components/${toCamelCaseString(arguments.componentName)}/initializer.js`,
+      destination: `./src/${toCamelCaseString(arguments.componentName)}/initializer.js`,
       parameters: {
         componentName: arguments.componentName
       }
     },
     {
       source: 'ComponentTemplate/initializer.js',
-      destination: `./components/${toCamelCaseString(arguments.componentName)}/initializer.js`,
+      destination: `./src/${toCamelCaseString(arguments.componentName)}/initializer.js`,
       parameters: {
         componentName: arguments.componentName
       }
     },
     {
       source: 'ComponentTemplate/index.jsx',
-      destination: `./components/${toCamelCaseString(arguments.componentName)}/index.jsx`,
+      destination: `./src/${toCamelCaseString(arguments.componentName)}/index.jsx`,
       parameters: null
     },
     {
       source: 'ComponentTemplate/constants.js',
-      destination: `./components/${toCamelCaseString(arguments.componentName)}/constants.js`,
+      destination: `./src/${toCamelCaseString(arguments.componentName)}/constants.js`,
       parameters: {
         dataCreateEndPointPost: arguments.dataCreateEndPointPost,
         dataReadEndPointGet: arguments.dataReadEndPointGet,
@@ -59,21 +59,27 @@ var filesToWrite = (arguments) => {
     },
     {
       source: 'ComponentTemplate/api/records.js',
-      destination: `./components/${toCamelCaseString(arguments.componentName)}/api/${toCamelCaseString(Object.keys(api_list_output)[0])}.js`,
+      destination: `./src/${toCamelCaseString(arguments.componentName)}/api/${toCamelCaseString(Object.keys(api_list_output)[0])}.js`,
       parameters: {
         componentName: capitalize(toCamelCaseString(Object.keys(api_list_output)[0]))
       }
     },
     {
       source: 'ComponentTemplate/schemas/RecordsApiSchema.js',
-      destination: `./components/${toCamelCaseString(arguments.componentName)}/schemas/${capitalize(toCamelCaseString(Object.keys(api_list_output)[0]))}ApiSchema.js`,
+      destination: `./src/${toCamelCaseString(arguments.componentName)}/schemas/${capitalize(toCamelCaseString(Object.keys(api_list_output)[0]))}ApiSchema.js`,
       parameters: {
-        recordsKey: Object.keys(api_list_output)[0]
+        recordsKey: Object.keys(api_list_output)[0],
+        toCamelCaseString: (string) => {
+          return toCamelCaseString(string);
+        },
+        capitalize: (string) => {
+          return capitalize(string);
+        }
       }
     },
     {
       source: 'ComponentTemplate/schemas/RecordSchema.js',
-      destination: `./components/${toCamelCaseString(arguments.componentName)}/schemas/${capitalize( toCamelCaseString(Object.keys(api_list_output)[0]))}Schema.js`,
+      destination: `./src/${toCamelCaseString(arguments.componentName)}/schemas/${capitalize( toCamelCaseString(Object.keys(api_list_output)[0]))}Schema.js`,
       parameters: { 
         data: getParameterForRecordSchema(Object.values(api_list_output)[0].results[0], Object.keys(api_list_output)[0])
       }
@@ -100,6 +106,15 @@ const createComponent = (arguments) => {
   var returnValues = '';
   //console.error(api_list_output);
   const recordApiOutput = Object.values(api_list_output)[0].results[0];
+  Handlebars.registerHelper('toCamelCaseString', function (aString) {
+    return toCamelCaseString(aString);
+  });
+  Handlebars.registerHelper('capitalize', function (aString) {
+    return capitalize(aString);
+  });
+  Handlebars.registerHelper('toCamelCaseAndCapitalize', function (aString) {
+    return capitalize(toCamelCaseString(aString));
+  });
   for (const property in recordApiOutput) {
     if (typeof recordApiOutput[property] === 'object') {
       var returnValues = `${returnValues} ${property}: ${property}Id,`

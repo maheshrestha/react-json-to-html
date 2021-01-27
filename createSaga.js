@@ -8,7 +8,7 @@ const getFilesToWriteSagaParams = (arguments, schema, return_params = []) => {
       .push(
         {
           source: 'ComponentTemplate/sagas/index.js',
-          destination: `./components/${toCamelCaseString(arguments.componentName)}/sagas/index.js`,
+          destination: `./src/${toCamelCaseString(arguments.componentName)}/sagas/index.js`,
           parameters: { 
             componentName: propertyToCamelCaseString
           }
@@ -18,7 +18,7 @@ const getFilesToWriteSagaParams = (arguments, schema, return_params = []) => {
       .push(
         {
           source: 'ComponentTemplate/sagas/recordSagas.js',
-          destination: `./components/${toCamelCaseString(arguments.componentName)}/sagas/${propertyToCamelCaseString}Sagas.js`,
+          destination: `./src/${toCamelCaseString(arguments.componentName)}/sagas/${propertyToCamelCaseString}Sagas.js`,
           parameters: { 
             componentName: capitalize(propertyToCamelCaseString),
             uncapitalizedComponentName: propertyToCamelCaseString,

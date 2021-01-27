@@ -1,0 +1,17 @@
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic,300,700italic,600&amp;subset=latin' rel='stylesheet'>
+
+{% content_for 'head_bottom' %}
+  <% for (var css in htmlWebpackPlugin.files.css) { %>
+  <link href="<%= htmlWebpackPlugin.files.css[css] %>" rel="stylesheet">
+  <% } %>
+{% endcontent_for %}
+
+{% content_for 'body_bottom' %}
+  <% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
+  <script src="<%= htmlWebpackPlugin.files.chunks[chunk].entry %>"></script>
+  <% } %>
+{% endcontent_for %}
+
+<% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
+<link href="<%= htmlWebpackPlugin.files.chunks[chunk].entry %>" rel="preload" as="script">
+<% } %>

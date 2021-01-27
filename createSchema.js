@@ -42,7 +42,7 @@ const getFilesToWriteSchemaParams = (arguments, schema, return_params = []) => {
       }
       return_params.push({
         source: 'ComponentTemplate/schemas/RecordSchema.js',
-        destination: `./components/${toCamelCaseString(arguments.componentName)}/schemas/${capitalize(propertyToCamelCaseString)}Schema.js`,
+        destination: `./src/${toCamelCaseString(arguments.componentName)}/schemas/${capitalize(propertyToCamelCaseString)}Schema.js`,
         parameters: { 
           data: getParameterForRecordSchema(objectToconvert, property)
         }
