@@ -8,3 +8,7 @@ export const DATA_DELETE_ENDPOINT_GET = '{{ dataDeleteEndPointGet }}';
 export const RECORD_CLASS_NAME = 'Customization';
 export const PARENT_OBJECT_CLASS = 'CustomModelType';
 export const PARENT_RESOURCE_ID = '{{ resourceID }}';
+
+export const ORDER_DESC = "DESC"
+export const ORDER_ASC = "ASC"
+

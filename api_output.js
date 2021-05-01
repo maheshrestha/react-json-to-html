@@ -1,78 +1,21 @@
 
-const api_list_output = {
-  "my_team_members":
-  {
-    "total_entries": 1,
-    "results": [
-      {
-        "id":"545389",
-        "carer_id":"65779",
-        "dummy_name": "mahesh shrestha",
-        "client":{
-          "id":"65812",
-          "slug":"client-test",
-          "first_name":"client",
-          "last_name":"test",
-          "name":"client test",
-          "client_profile": {
-            "id": "987",
-            "gender": "male"
-          },
-          "current_address":{
-            "id": "12345",
-            "address":"164 Barrow St, Coburg VIC 3058, Australia",
-            "suburb":"Coburg",
-            "postcode":"3058",
-            "state":"Victoria"
-          },
-          "default_profile":{
-            "id":"106809",
-            "organisation":{
-              "id": "123",
-              "name": "Care Support"
-            },
-            "picture": {
-              "id": "199",
-              "url": "sssss"
-            }
-          }
-        },
-        "carer":{
-          "id":"65812",
-          "slug":"client-test",
-          "first_name":"client",
-          "last_name":"test",
-          "name":"client test",
-          "client_profile": {
-            "id": "987",
-            "gender": "male"
-          },
-          "current_address":{
-            "id": "12345",
-            "address":"164 Barrow St, Coburg VIC 3058, Australia",
-            "suburb":"Coburg",
-            "postcode":"3058",
-            "state":"Victoria"
-          },
-          "default_profile":{
-            "id":"106809",
-            "organisation":{
-              "id": "123",
-              "name": "Care Support"
-            },
-            "picture": {
-              "id": "199",
-              "url": "sssss"
-            }
-          },
-          "team_members": [
-            {"id": "222", "name": "full name", "phone": "0415760459", "photo": {"id": "111", "url": "mmmm" }}
-          ]
-        }
-      }
-    ]
-  }
+var api_list_output = {
+  "results":[
+    {
+      "id": "49918",
+      "created_at": "2017-06-07T04:36:41.269Z",
+      "slug": "andy-49919",
+      "name": "Andy c",
+      "first_name": "Andy",
+      "last_name": "c",
+      "email": "woftm@yahoo.com.au",
+      "mobile_number": "",
+      "bookings": [{"id":"14390","created_at":"2017-06-07T19:23:04.438+10:00","starts_at":"2017-06-08T09:00:00.000+10:00","archived_at":"2017-06-08T09:00:00.000+10:00","state":"inactive","timezone":"australia/canberra"},{"id":"14391","created_at":"2017-06-07T19:23:30.281+10:00","starts_at":"2017-06-08T09:00:00.000+10:00","archived_at":"2017-06-08T09:00:00.000+10:00","state":"inactive","timezone":"australia/canberra"}]
+    }
+  ]
 }
 
 
-module.exports = {api_list_output}
+module.exports = {
+  api_list_output
+}

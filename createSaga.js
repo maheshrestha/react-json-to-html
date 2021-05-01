@@ -1,14 +1,12 @@
 const { toCamelCaseString, capitalize } = require('./helper')
-const getFilesToWriteSagaParams = (arguments, schema, return_params = []) => {
-  console.error("schema: ", schema);
+const getFilesToWriteSagaParams = (arguments, schema, schemaNames,  return_params = []) => {
   for (const property in schema) {
     var propertyToCamelCaseString = toCamelCaseString(property);
-    console.error("property: ", property);
     return_params
       .push(
         {
           source: 'ComponentTemplate/sagas/index.js',
-          destination: `./src/${toCamelCaseString(arguments.componentName)}/sagas/index.js`,
+          destination: `../react-app/src/${toCamelCaseString(arguments.componentName)}/sagas/index.js`,
           parameters: { 
             componentName: propertyToCamelCaseString
           }
@@ -18,16 +16,14 @@ const getFilesToWriteSagaParams = (arguments, schema, return_params = []) => {
       .push(
         {
           source: 'ComponentTemplate/sagas/recordSagas.js',
-          destination: `./src/${toCamelCaseString(arguments.componentName)}/sagas/${propertyToCamelCaseString}Sagas.js`,
+          destination: `../react-app/src/${toCamelCaseString(arguments.componentName)}/sagas/${propertyToCamelCaseString}Sagas.js`,
           parameters: { 
-            componentName: capitalize(propertyToCamelCaseString),
-            uncapitalizedComponentName: propertyToCamelCaseString,
-            recordKey: property
+            schemas: schemaNames,
+            recordsKey: property
           }
         }
       );
   }
-  console.error("return_params: ", return_params);
   return return_params;
 }
 module.exports = {

@@ -24,7 +24,7 @@ function getCSRFToken(): string {
 function getDefaultRequestHeaders() {
   return {
     'X-Requested-With': 'XMLHttpRequest',
-    'X-CSRF-Token': getCSRFToken()
+    //'X-CSRF-Token': getCSRFToken()
   };
 }
 

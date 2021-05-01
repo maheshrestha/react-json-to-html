@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 import App from '../components/App';
 import { getLoadTimestamp, isLoading } from '../ducks/ui';
-import { loadMyTeamMembers } from '../sagas/myTeamMemberSagas';
+import { load{{ toCamelCaseAndCapitalize recordKey }}s } from '../sagas/{{ toCamelCaseString recordKey }}Sagas';
 import type { State } from '../ducks';
 import type { Dispatch } from 'redux';
 import { toJS } from './toJS';
@@ -18,7 +18,7 @@ const mapStateToProps = (state: State): Object => {
 const mapDispatchToProps = (dispatch: Dispatch<*>): Object => {
   return {
     initialize: () => {
-      dispatch(loadMyTeamMembers());
+      dispatch(load{{ toCamelCaseAndCapitalize recordKey }}s());
     }
   };
 };

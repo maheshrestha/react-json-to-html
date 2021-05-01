@@ -1,11 +1,43 @@
 // @flow
+import find from 'lodash-es/find';
+/*
+import { getSortProperties } from '../helpers/sorting';
+import {
+  ORDER_DESC,
+} from '../constants';
+*/
 import { createSelector } from 'reselect';
+
 import { OrderedSet } from 'immutable';
-import { getMyTeamMembers } from './myTeamMembers';
-
+import { get{{ toCamelCaseAndCapitalize recordKey }}s } from './{{ toCamelCaseString recordKey }}';
+/*
+import {
+  timestampToShortDate,
+  timestampToTime,
+  formatPrice
+} from '../helpers/format';
+import {
+  getActiveStates,
+  getMinimumAmount,
+  getMaximumAmount,
+  getCarerId,
+  getClientId,
+  getServiceToName,
+  getReference,
+  getStartDate,
+  getStartTime,
+  getEndDate,
+  getSortOrder,
+  getManagerId,
+  getUserType
+} from './filters';
+import moment from 'moment';
+*/
 import type { Action, State } from './index';
-import type { MyTeamMember } from '../definitions/MyTeamMember';
-
+/*
+import type { Order } from '../definitions/Order';
+import type { OrderState } from '../types/OrderState';
+*/
 export type ListingAction =
   | {| type: 'listing/ADD', id: string |}
   | {| type: 'listing/EMPTY' |}
@@ -16,7 +48,6 @@ export const initialState = OrderedSet();
 export const types = {
   ADD: 'listing/ADD',
   ADD_BULK: 'listing/ADD_BULK',
-  DELETE: 'listing/DELETE',
   EMPTY: 'listing/EMPTY'
 };
 
@@ -35,13 +66,6 @@ export const addIds = (ids: Array<string>): ListingAction => {
   };
 };
 
-export const deleteId = (id: string): ListingAction => {
-  return {
-    type: types.DELETE,
-    id
-  };
-};
-
 export const empty = (): ListingAction => {
   return {
     type: types.EMPTY
@@ -53,33 +77,27 @@ export const getIds = (state: State): OrderedSet<string> => {
   return state.get('listing');
 };
 
-export const getMyTeamMemberIds = createSelector(
-  getMyTeamMembers,
-  (myTeamMembers): OrderedSet<string> => {
-    console.log('-----: ', myTeamMembers);
-
-    return myTeamMembers
-      .map((myTeamMember: MyTeamMember): number => myTeamMember.id)
-      .toOrderedSet();
+export const getSortedAndFiltered{{ toCamelCaseAndCapitalize recordKey }}Ids = createSelector(
+  get{{ toCamelCaseAndCapitalize recordKey }}s,
+  (
+    {{ toCamelCaseString recordKey }}
+  ): OrderedSet<string> => {
+    
+    return {{ toCamelCaseString recordKey }}.map((order: Order): number => order.id).toOrderedSet();
   }
 );
+
+
 
 export default function reducer<T: ListingState>(
   state: T = initialState,
   action: Action
 ): T {
-  console.log('state: ', state);
   switch (action.type) {
     case types.ADD:
       return state.add(action.id);
     case types.ADD_BULK:
       return state.concat(action.ids);
-    case type.DELETE:
-      return state.filter(function(id) {
-        console.log('id:', id);
-        console.log('action.id:', action.id);
-        return action.id !== id;
-      });
     case types.EMPTY:
       return initialState;
     default:

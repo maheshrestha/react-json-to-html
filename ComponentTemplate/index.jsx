@@ -7,7 +7,7 @@ import store from './store/configureStore';
 import GlobalErrorBoundry from '../common/components/GlobalErrorBoundry';
 import App from './containers/App';
 
-function init(container: HTMLElement) {
+function init(container) {
   render(
     <Provider store={store}>
       <GlobalErrorBoundry>

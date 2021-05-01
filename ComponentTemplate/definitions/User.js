@@ -8,11 +8,6 @@ export type UserProps = {
   firstName: string,
   lastName: string,
   name: string,
-  profilePicture: string,
-  suburb: string,
-  postcode: string,
-  state: string,
-  address: string,
   type: string
 };
 
@@ -23,11 +18,6 @@ export const makeUser: RecordFactory<UserProps> = Record(
     firstName: '',
     lastName: '',
     name: '',
-    profilePicture: '',
-    suburb: '',
-    postcode: '',
-    state: '',
-    address: '',
     type: ''
   },
   'User'

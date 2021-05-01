@@ -58,14 +58,22 @@ module.exports = {
             swDest: 'sw.js',
             clientsClaim: true,
             skipWaiting: false,
-          })
+          }),
+          
   ],
 
   module: {
     rules: [{
       test: /\.(js|jsx)$/,
       include: [path.resolve(__dirname, 'src')],
-      loader: 'babel-loader'
+      loader: 'babel-loader',
+      options: {                 
+        presets: [
+          '@babel/preset-env', 
+          '@babel/react',
+          { 'plugins': ['@babel/plugin-proposal-class-properties'] }
+        ]             
+      }
     }, {
       test: /.(sa|sc|c)ss$/,
 
@@ -86,7 +94,9 @@ module.exports = {
       }]
     }]
   },
-
+  resolve: {
+    extensions: ['*', '.js', '.jsx'],
+  },
   devServer: {
     open: true,
     host: 'localhost'

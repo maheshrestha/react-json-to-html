@@ -1,8 +1,12 @@
 {
-    "plugins": ["syntax-dynamic-import"],
+    "plugins": [
+        "typecheck", 
+        "syntax-flow", 
+        "transform-flow-strip-types",
+        "syntax-dynamic-import"],
     "presets": [
         [
-            "@babel/preset-env",
+            "@babel/preset-flow",
             {
                 "modules": false
             }

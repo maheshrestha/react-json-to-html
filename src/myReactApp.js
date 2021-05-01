@@ -4,13 +4,12 @@
  */
 //import '../stylesheets/app.scss';
 
-
-// Import modules
-import myTeamInitializer from './myTeam/initializer';
+import ordersInitializer from './aa/initializer';
 
 // Initialize modules
 $(() => {
-  myTeamInitializer();
+  //ordersInitializer();
+console.log("mahesh");
 });
 
 // Initialize fastclick - remove 300ms delay on touch-enabled devices

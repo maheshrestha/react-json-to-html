@@ -24,7 +24,7 @@ function getCSRFToken(): string {
 function getDefaultRequestHeaders() {
   return {
     'X-Requested-With': 'XMLHttpRequest',
-    'X-CSRF-Token': getCSRFToken()
+    //'X-CSRF-Token': getCSRFToken()
   };
 }
 
@@ -43,7 +43,8 @@ function setJSONHeaders(config: { acce?: Object } = {}) {
     {},
     {
       Accept: 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: 'yeH41GEyVq0HSoeXXCU5mEdnrO73NKvr'
     },
     config
   );

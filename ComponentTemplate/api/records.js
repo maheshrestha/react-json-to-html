@@ -16,10 +16,12 @@ import { normalize } from 'normalizr';
 
 
 import {{ componentName }}ApiSchema from '../schemas/{{ componentName }}ApiSchema';
+import { api_list_output as response } from '../../api_output'
 
 export async function fetch{{ componentName }}(queryParams: String = ''): Promise<*> {
-  const url = `${DATA_READ_ENDPOINT_GET}?${queryParams}`;
-  const response = await getJSON(url);
+  // const url = `${DATA_READ_ENDPOINT_GET}?${queryParams}`;
+  // const response = await getJSON(url);
+  return normalize(response, {{ componentName }}ApiSchema);
   if (response.status < 500 && typeof response.data === 'object') {
     return normalize(response.data, {{ componentName }}ApiSchema);
   }

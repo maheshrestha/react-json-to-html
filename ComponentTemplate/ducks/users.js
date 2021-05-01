@@ -5,6 +5,7 @@ import { fromJS, mergeDeep } from 'immutable';
 import { combineReducers } from 'redux-immutable';
 import { makeUser, makeUsers } from '../definitions/User';
 import type { User, UserProps } from '../definitions/User';
+import type { SelectOption, SelectOptions } from '../types/SelectOptions';
 import { InitialEntitiesStore } from './common';
 import type { Action, State } from './index';
 import type {

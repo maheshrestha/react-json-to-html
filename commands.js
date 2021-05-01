@@ -5,6 +5,7 @@ const fse = require('fs-extra');
 const {
   createComponent
 } = require('./index');
+const { info } = require('node-sass');
 
 const questions = [
   {
@@ -51,7 +52,7 @@ program
     prompt(questions).then(answers => { 
       //console.info(answers);
       let sourceDir = './ComponentTemplate/common';
-      let destDir = './common';
+      let destDir = '../react-app/src/common';
       try {
         fse.copySync(sourceDir, destDir, { recursive: true })
         createComponent(answers)
@@ -67,8 +68,10 @@ program
   .alias('D')
   .description('Delete Components')
   .action(() => {
-    fse.remove("./common", { recursive: true });
-    fse.remove("./src", { recursive: true });
+    var myArgs = process.argv.slice(2);
+    //console.error(myArgs);
+    //fse.remove("./common", { recursive: true });
+    fse.remove(`../react-app//src/${myArgs[1]}`, { recursive: true });
   });
 
 program.parse(process.argv);

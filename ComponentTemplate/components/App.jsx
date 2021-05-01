@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 
-import MyTeamMembers from '../containers/MyTeamMembers';
+import {{ toCamelCaseAndCapitalize componentName }}s from '../containers/{{ toCamelCaseAndCapitalize  componentName }}s';
 import Loading from './Loading';
 import LoadingRequest from './LoadingRequest';
 
@@ -25,7 +25,7 @@ class App extends React.Component<AppProps> {
     return (
       <div className="wrap-my-team">
         {isLoading && <LoadingRequest />}
-        <MyTeamMembers />
+        <{{ toCamelCaseAndCapitalize  componentName }}s />
       </div>
     );
   }

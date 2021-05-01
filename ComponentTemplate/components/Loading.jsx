@@ -6,7 +6,7 @@ class Loading extends React.Component<{}> {
   render(): React.Node {
     return (
       <div className="myTeam-loadingInfo">
-        <p>Please wait while your clients are loading&hellip;</p>
+        <p>Please wait&hellip;</p>
         <div className="hollow-dots-spinner spinnerStyle">
           <Spinner />
         </div>

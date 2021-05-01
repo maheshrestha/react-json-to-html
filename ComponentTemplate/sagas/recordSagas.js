@@ -1,37 +1,45 @@
 // @flow
 import { takeEvery, put, call, select } from 'redux-saga/effects';
 import type { Saga } from 'redux-saga';
-import { fetch{{ componentName }}, sendRemove{{ componentName }}, sendCreate{{ componentName }} } from '../api/{{ uncapitalizedComponentName }}';
+import { fetch{{ toCamelCaseAndCapitalize recordsKey }}, sendRemove{{ toCamelCaseAndCapitalize recordsKey }}, sendCreate{{ toCamelCaseAndCapitalize recordsKey }} } from '../api/{{ toCamelCaseString recordsKey }}';
 import { setLoadTimestamp, setIsLoading } from '../ducks/ui';
-import { add{{ componentName }}, deleteId } from '../ducks/{{ uncapitalizedComponentName }}';
-import { addUsers } from '../ducks/users';
+
+{{#schemas}}
+import { add{{ toCamelCaseAndCapitalize name }}s } from '../ducks/{{ toCamelCaseString name }}';
+{{/schemas}}
 
 import { addIds } from '../ducks/listing';
 
-import { setFiltersFromUrl } from './filtersSagas';
+//import { setFiltersFromUrl } from './filtersSagas';
 
-function* initialLoad{{ componentName }}Saga(): Saga<void> {
-  console.log('mahesh');
+function* initialLoad{{ toCamelCaseAndCapitalize recordsKey }}Saga(): Saga<void> {
   yield put(setIsLoading(true));
-  yield call(load{{ componentName }}Saga);
+  yield call(load{{ toCamelCaseAndCapitalize recordsKey }}Saga);
   yield put(setIsLoading(false));
   yield put(setLoadTimestamp(Date.now()));
-  yield put(setFiltersFromUrl());
+  // yield put(setFiltersFromUrl());
 }
 
-function* load{{ componentName }}Saga(): Saga<void> {
+function* load{{ toCamelCaseAndCapitalize recordsKey }}Saga(): Saga<void> {
   const queryParams = '';
-  var data: Normalized{{ componentName }}ApiCall = yield call(
-    fetch{{ componentName }},
+  var data: Normalized{{ toCamelCaseAndCapitalize recordsKey }}ApiCall = yield call(
+    fetch{{ toCamelCaseAndCapitalize recordsKey }},
     queryParams
   );
   if (data) {
     const { result, entities } = data;
-    const { {{ recordKey }} = {} } = entities;
-    yield put(add{{ componentName }}({{ recordKey}}));
+    const { 
+    {{#schemas}}
+      {{ toCamelCaseString name }} = {},
+    {{/schemas}}
+    } = entities;
+    {{#schemas}}
+
+    yield put(add{{ toCamelCaseAndCapitalize name }}s({{ toCamelCaseString name }}));
+    {{/schemas}}
     //yield put(addUsers(users));
     const {
-      {{ recordKey }}: { results: ids }
+      {{ recordsKey }}: ids 
     } = result;
     yield put(addIds(ids));
   } else {
@@ -39,13 +47,13 @@ function* load{{ componentName }}Saga(): Saga<void> {
   }
 }
 
-function* create{{ componentName }}Saga({ id, userType }: { id: string }): Saga<*> {
-  yield call(sendCreate{{ componentName }}, id, userType);
+function* create{{ toCamelCaseAndCapitalize recordsKey }}Saga({ id, userType }: { id: string }): Saga<*> {
+  yield call(sendCreate{{ toCamelCaseAndCapitalize recordsKey }}, id, userType);
 }
 
-function* sendRemove{{ componentName }}Saga({ id, userType }: { id: string }): Saga<*> {
+function* sendRemove{{ toCamelCaseAndCapitalize recordsKey }}Saga({ id, userType }: { id: string }): Saga<*> {
   yield put(setIsLoading(true));
-  yield call(sendRemove{{ componentName }}, id, userType);
+  yield call(sendRemove{{ toCamelCaseAndCapitalize recordsKey }}, id, userType);
   yield put(deleteId(id));
   yield put(setIsLoading(false));
 }
@@ -53,12 +61,12 @@ function* sendRemove{{ componentName }}Saga({ id, userType }: { id: string }): S
 
 // ACTION CREATORS
 const types = {
-  LOAD: 'sagas/{{ uncapitalizedComponentName }}/LOAD',
-  CREATE: 'sagas/{{ uncapitalizedComponentName }}/CREATE',
-  SEND_REMOVE: 'saga/{{ uncapitalizedComponentName }}/SEND_REMOVE'
+  LOAD: 'sagas/{{ toCamelCaseString recordsKey }}/LOAD',
+  CREATE: 'sagas/{{ toCamelCaseString recordsKey }}/CREATE',
+  SEND_REMOVE: 'saga/{{ toCamelCaseString recordsKey }}/SEND_REMOVE'
 };
 
-export function load{{ componentName }}(): { type: string } {
+export function load{{ toCamelCaseAndCapitalize recordsKey }}s(): { type: string } {
   return { type: types.LOAD };
 }
 export function addToMyTeam(
@@ -72,7 +80,7 @@ export function removeFromMyTeam(id: string): { type: string, id: string } {
 }
 
 export const watches = [
-  takeEvery(types.LOAD, initialLoad{{ componentName }}Saga),
-  takeEvery(types.CREATE, create{{ componentName }}Saga),
-  takeEvery(types.SEND_REMOVE, sendRemove{{ componentName }}Saga)
+  takeEvery(types.LOAD, initialLoad{{ toCamelCaseAndCapitalize recordsKey }}Saga),
+  takeEvery(types.CREATE, create{{ toCamelCaseAndCapitalize recordsKey }}Saga),
+  takeEvery(types.SEND_REMOVE, sendRemove{{ toCamelCaseAndCapitalize recordsKey }}Saga)
 ];
