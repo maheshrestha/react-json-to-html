@@ -21,7 +21,7 @@ function* initialLoad{{ toCamelCaseAndCapitalize recordsKey }}Saga(): Saga<void>
 }
 
 function* load{{ toCamelCaseAndCapitalize recordsKey }}Saga(): Saga<void> {
-  const queryParams = '';
+  const queryParams = [].join('&');
   var data: Normalized{{ toCamelCaseAndCapitalize recordsKey }}ApiCall = yield call(
     fetch{{ toCamelCaseAndCapitalize recordsKey }},
     queryParams

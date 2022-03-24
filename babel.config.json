@@ -1,0 +1,15 @@
+{
+    "plugins": [
+        "typecheck", 
+        "syntax-flow", 
+        "transform-flow-strip-types",
+        "syntax-dynamic-import"],
+    "presets": [
+        [
+            "@babel/preset-flow",
+            {
+                "modules": false
+            }
+        ]
+    ]
+}

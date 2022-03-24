@@ -20,7 +20,6 @@ class {{ toCamelCaseAndCapitalize schema.name }}s extends React.Component<{{ toC
     return (
       <{{ toCamelCaseAndCapitalize schema.name }}sTable>
         {
-          //ids.slice(minValue, maxValue).map((id: string): React.Node => 
           ids.map((id: string): React.Node => 
             <{{ toCamelCaseAndCapitalize schema.name }} id={id} key={id} />
           )

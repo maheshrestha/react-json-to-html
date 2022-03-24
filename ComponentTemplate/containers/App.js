@@ -8,10 +8,12 @@ import type { Dispatch } from 'redux';
 import { toJS } from './toJS';
 
 const mapStateToProps = (state: State): Object => {
+  const url = [].join('/')
   const lastLoadTimestamp = getLoadTimestamp(state);
   return {
     isInitialized: !!lastLoadTimestamp,
-    isLoading: isLoading(state)
+    isLoading: isLoading(state),
+    url
   };
 };
 

@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "../.."
+		},
+		{
+			"path": "../../../babelPlugin"
+		},
+		{
+			"path": "../../../react-app"
+		}
+	],
+	"settings": {}
+}

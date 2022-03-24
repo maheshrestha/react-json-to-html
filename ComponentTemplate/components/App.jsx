@@ -12,6 +12,11 @@ type AppProps = {
 };
 
 class App extends React.Component<AppProps> {
+  componentWillReceiveProps (nextProps: FiltersProps) {
+    if (nextProps.url !== this.props.url) {
+      window.history.pushState(nextProps.url, 'My App', '/' + nextProps.url)
+    }
+  }
   componentDidMount() {
     this.props.initialize();
   }

@@ -4,14 +4,10 @@ import {{ toCamelCaseAndCapitalize schema.name }} from '../components/{{ toCamel
 //import NoRecords from '../components/NoRecords';
 
 import { get{{ toCamelCaseAndCapitalize schema.name }}ById } from '../ducks/{{ toCamelCaseString schema.name }}';
-//import { getUserById } from '../ducks/users';
-import { addToMyTeam, removeFromMyTeam } from '../sagas/{{ toCamelCaseString schema.name }}Sagas';
 import type { State } from '../ducks';
 import { toJS } from './toJS';
 
 const makeMapStateToProps = (): Object => {
-  //const getSortedPeriodIdsForOrder = makeGetSortedPeriodIdsForOrder();
-
   const mapStateToProps = (stt: State, ownProps: { id: string }): Object => {
     const {{ toCamelCaseString schema.name }} = get{{ toCamelCaseAndCapitalize schema.name }}ById(stt, ownProps.id);
     if (!{{ toCamelCaseString schema.name }}) {
@@ -48,11 +44,3 @@ export default connect(
   makeMapStateToProps,
   mapDispatchToProps
 )(toJS({{ toCamelCaseAndCapitalize schema.name }}));
-/*
-
-export default connect(
-  makeMapStateToProps,
-  mapDispatchToProps
-)(toJS(NoRecords));
-*/
-

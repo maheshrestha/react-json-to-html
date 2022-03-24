@@ -1,14 +1,11 @@
 // @flow
 import * as React from 'react';
+import { Spin } from 'antd';
 
 class Spinner extends React.Component<{}> {
   render(): React.Node {
     return (
-      <div className="hollow-dots-spinner">
-        <div className="dot" />
-        <div className="dot" />
-        <div className="dot" />
-      </div>
+      <Spin tip="Loading..."></Spin>
     );
   }
 }

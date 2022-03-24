@@ -137,7 +137,7 @@ const createComponent = (arguments) => {
     if (typeof recordApiOutput[property] === 'object') {
       var returnValues = `${returnValues} ${property}: ${property}Id,`
     }
-    console.log(`${returnValues}`);
+    // console.log(`${returnValues}`);
   }
   filesToWrite(arguments).forEach(fileToWrite => {
     fs.readFile(fileToWrite.source, 'utf8', function (err,data) {
