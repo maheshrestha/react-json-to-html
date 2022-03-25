@@ -7,20 +7,10 @@ type FiltersProps = {
 };
 
 class Filters extends React.Component<FiltersProps> {
-  componentWillReceiveProps(nextProps: FiltersProps) {
-    if (nextProps.filtersUrl !== this.props.filtersUrl) {
-      window.history.pushState(nextProps.filtersUrl, 'My App', "/" + nextProps.filtersUrl);
-    }
-  }
-
-  componentDidMount() {
-    window.addEventListener('popstate', this.props.setFiltersFromUrl);
-  }
-
   render(): React.Node {
 
     return (
-      <div className="ordersListing-filters" role="group">
+      <div className="filters-wrapper" role="group">
 
       </div>
     );

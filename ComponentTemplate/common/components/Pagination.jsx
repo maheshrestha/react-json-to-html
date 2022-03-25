@@ -1,7 +1,6 @@
 import React from 'react'
 
 export const Pagination = props => {
-  console.log("pageination: ", props);
   const PaginationData = {
     pageOffsetStart: (props.currentPage === 1) ? 1 : props.perPageSize * props.currentPage - props.perPageSize + 1,
     pageOffsetEnd: (props.currentPage === 1) ? props.perPageSize * props.currentPage : props.perPageSize * props.currentPage,
@@ -14,18 +13,17 @@ export const Pagination = props => {
   PaginationData.pageOffsetEnd = PaginationData.pageOffsetEnd > PaginationData.totalRecords ? PaginationData.totalRecords : PaginationData.pageOffsetEnd;
   const hasNextPage = PaginationData.pageOffsetEnd < PaginationData.totalRecords ? true : false;
   const hasPreviousPage = PaginationData.pageOffsetStart > 1 && PaginationData.totalRecords > 1 ? true : false;
-  console.log("paginationData: ", PaginationData.pageOffsetStart, hasPreviousPage);
   return (
       <div className="row">
         <div className="col-lg-12 col-md-12">
           <div className="mt-page">
             <ul>
-              <li className="mt-page-tt">Row per page:
+              <li className="mt-page-tt">Per page:
                 <select onChange={props.onSizeChange} data-name="perPage">
                   <option value="10">10</option>
-                  {PaginationData.totalRecords > 10 && <option value="25">25</option>}
-                  {PaginationData.totalRecords > 25 && <option value="50">50</option>}
-                  {PaginationData.totalRecords > 50 && <option value="100">100</option>}
+                  {PaginationData.totalRecords > 10 && <option value="25" selected={props.perPageSize === 25}>25</option>}
+                  {PaginationData.totalRecords > 25 && <option value="50" selected={props.perPageSize === 50}>50</option>}
+                  {PaginationData.totalRecords > 50 && <option value="100" selected={props.perPageSize === 100}>100</option>}
                 </select>
               </li>
               <li className="mt-page-tt">

@@ -15,7 +15,7 @@ module.exports = function (babel) {
           );
           if (!paginationRegex)
             urlRegx.init.properties.push(
-              t.Identifier(`pagination: "/([\\d-]+)/([\\d-]+)"`)
+              t.Identifier(`pagination: "/([\\\\d-]+)/([\\\\d-]+)"`)
             );
         }
       },

@@ -19,7 +19,12 @@ module.exports = function (babel, kk) {
         node.body.body.forEach((b) => {
           if (looksLike(b, { type: "VariableDeclaration" })) {
             b.declarations.forEach((declaration) => {
-              if (declaration.id.name === "queryParams") {
+              if (
+                declaration.id.name === "queryParams" &&
+                !declaration.init.callee.object.elements.find(
+                  (e) => e.argument.arguments.name === "getQueryFromFilter"
+                )
+              ) {
                 declaration.init.callee.object.elements.push(
                   t.Identifier("yield select(getQueryFromFilter)")
                 );

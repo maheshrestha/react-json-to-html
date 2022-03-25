@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-
+import { FILTER_PARAM_NAME } from '../constants';
 import {{ toCamelCaseAndCapitalize componentName }}s from '../containers/{{ toCamelCaseAndCapitalize  componentName }}s';
 import Loading from './Loading';
 import LoadingRequest from './LoadingRequest';
@@ -14,7 +14,10 @@ type AppProps = {
 class App extends React.Component<AppProps> {
   componentWillReceiveProps (nextProps: FiltersProps) {
     if (nextProps.url !== this.props.url) {
-      window.history.pushState(nextProps.url, 'My App', '/' + nextProps.url)
+      const queryParams = new URLSearchParams(window.location.search)
+      
+      queryParams.set(FILTER_PARAM_NAME, `/${nextProps.url}`)
+      window.history.pushState(nextProps.url, 'My App', '?' + queryParams)
     }
   }
   componentDidMount() {
@@ -28,7 +31,7 @@ class App extends React.Component<AppProps> {
     }
 
     return (
-      <div className="wrap-my-team">
+      <div className="table-responsive">
         {isLoading && <LoadingRequest />}
         <{{ toCamelCaseAndCapitalize  componentName }}s />
       </div>

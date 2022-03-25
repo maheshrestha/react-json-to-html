@@ -17,7 +17,7 @@ module.exports = function (babel) {
           );
           let pattern = "";
           if (fieldDataType === "number") {
-            pattern = "/([\\d-]+)";
+            pattern = "/([\\\\d-]+)";
           } else if (fieldDataType === "string") {
             pattern = "/(\\w+|-)";
           } else if (fieldDataType === "date") {

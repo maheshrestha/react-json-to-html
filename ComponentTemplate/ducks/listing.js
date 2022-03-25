@@ -1,43 +1,10 @@
 // @flow
 import find from 'lodash-es/find';
-/*
-import { getSortProperties } from '../helpers/sorting';
-import {
-  ORDER_DESC,
-} from '../constants';
-*/
 import { createSelector } from 'reselect';
 
 import { OrderedSet } from 'immutable';
 import { get{{ toCamelCaseAndCapitalize recordKey }}s } from './{{ toCamelCaseString recordKey }}';
-/*
-import {
-  timestampToShortDate,
-  timestampToTime,
-  formatPrice
-} from '../helpers/format';
-import {
-  getActiveStates,
-  getMinimumAmount,
-  getMaximumAmount,
-  getCarerId,
-  getClientId,
-  getServiceToName,
-  getReference,
-  getStartDate,
-  getStartTime,
-  getEndDate,
-  getSortOrder,
-  getManagerId,
-  getUserType
-} from './filters';
-import moment from 'moment';
-*/
 import type { Action, State } from './index';
-/*
-import type { Order } from '../definitions/Order';
-import type { OrderState } from '../types/OrderState';
-*/
 export type ListingAction =
   | {| type: 'listing/ADD', id: string |}
   | {| type: 'listing/EMPTY' |}

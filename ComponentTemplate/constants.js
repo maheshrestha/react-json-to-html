@@ -14,3 +14,4 @@ export const ORDER_ASC = "ASC";
 export const URL_REGEXPS = {
   prefix: "",
 };
+export const FILTER_PARAM_NAME = "{{ filterParamName }}";

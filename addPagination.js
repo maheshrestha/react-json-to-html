@@ -18,7 +18,23 @@ const addPaginationComponent = (componentName) => {
     {
       sourceFilePath: `./babelPlugin/addPagination/sagas/input/paginationSaga.js`,
       destinationFilePath: `../react-app/src/common/sagas/paginationSaga.js`,
-      babelPlugins: [],
+      babelPlugins: [
+        [
+          "./babelPlugin/addPagination/sagas/paginationSaga.js",
+          {
+            componentName: toCamelCaseString(componentName),
+          },
+        ],
+      ],
+    },
+    {
+      sourceFilePath: `../react-app/src/${toCamelCaseString(
+        componentName
+      )}/sagas/index.js`,
+      destinationFilePath: `../react-app/src/${toCamelCaseString(
+        componentName
+      )}/sagas/index.js`,
+      babelPlugins: ["./babelPlugin/addPagination/sagas/index.js"],
     },
     {
       sourceFilePath: `../react-app/src/${toCamelCaseString(

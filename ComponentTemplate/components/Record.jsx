@@ -13,9 +13,7 @@ class {{ toCamelCaseAndCapitalize schema.name }} extends React.Component<{{ toCa
     return (
       <tr>
         {{# each schema.fields}}
-        <td>
-          {!!{{ this.schemaField }} && {{ this.schemaField }} }
-        </td>
+        <td>{!!{{ this.schemaField }} && {{ this.schemaField }} } </td>
         {{/each}}
         <td></td>
       </tr>

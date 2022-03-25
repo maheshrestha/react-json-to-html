@@ -16,10 +16,15 @@ function* setPaginationFromUrlSaga({
   pagination: string,
   filter: string,
 }): Saga<void> {
-  const pathName = getSlugsFromUrl(urlRegexps);
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const paginationFilters = urlParams.get(FILTER_PARAM_NAME);
+  if (!paginationFilters) {
+    return;
+  }
+  const pathName = getSlugsFromUrl(urlRegexps, paginationFilters);
   const paginationRegExp = new RegExp(["^", urlRegexps.pagination].join(""));
   const matches = pathName.pagination.match(paginationRegExp);
-
   if (!matches) {
     return;
   }

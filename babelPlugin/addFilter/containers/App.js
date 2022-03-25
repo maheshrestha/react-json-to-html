@@ -38,7 +38,12 @@ module.exports = function (babel, state) {
         mapStateToPropsNode.declarations[0].init.body.body.forEach((b) => {
           if (looksLike(b, { type: "VariableDeclaration" })) {
             b.declarations.forEach((declaration) => {
-              if (declaration.id.name === "url") {
+              if (
+                declaration.id.name === "url" &&
+                !declaration.init.callee.object.elements.find((e) => {
+                  return e.callee.name === "getUrlFromFilters";
+                })
+              ) {
                 declaration.init.callee.object.elements.push(
                   t.Identifier("getUrlFromFilters(state)")
                 );

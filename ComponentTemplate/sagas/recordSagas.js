@@ -47,40 +47,17 @@ function* load{{ toCamelCaseAndCapitalize recordsKey }}Saga(): Saga<void> {
   }
 }
 
-function* create{{ toCamelCaseAndCapitalize recordsKey }}Saga({ id, userType }: { id: string }): Saga<*> {
-  yield call(sendCreate{{ toCamelCaseAndCapitalize recordsKey }}, id, userType);
-}
-
-function* sendRemove{{ toCamelCaseAndCapitalize recordsKey }}Saga({ id, userType }: { id: string }): Saga<*> {
-  yield put(setIsLoading(true));
-  yield call(sendRemove{{ toCamelCaseAndCapitalize recordsKey }}, id, userType);
-  yield put(deleteId(id));
-  yield put(setIsLoading(false));
-}
 
 
 // ACTION CREATORS
 const types = {
   LOAD: 'sagas/{{ toCamelCaseString recordsKey }}/LOAD',
-  CREATE: 'sagas/{{ toCamelCaseString recordsKey }}/CREATE',
-  SEND_REMOVE: 'saga/{{ toCamelCaseString recordsKey }}/SEND_REMOVE'
 };
 
 export function load{{ toCamelCaseAndCapitalize recordsKey }}s(): { type: string } {
   return { type: types.LOAD };
 }
-export function addToMyTeam(
-  id: string,
-  userType: string
-): { type: string, id: string, userType: string } {
-  return { type: types.CREATE, id, userType };
-}
-export function removeFromMyTeam(id: string): { type: string, id: string } {
-  return { type: types.SEND_REMOVE, id };
-}
 
 export const watches = [
   takeEvery(types.LOAD, initialLoad{{ toCamelCaseAndCapitalize recordsKey }}Saga),
-  takeEvery(types.CREATE, create{{ toCamelCaseAndCapitalize recordsKey }}Saga),
-  takeEvery(types.SEND_REMOVE, sendRemove{{ toCamelCaseAndCapitalize recordsKey }}Saga)
 ];
