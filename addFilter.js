@@ -48,7 +48,6 @@ const addFilterToComponent = (
           { fieldName: denormalizedFieldName, fieldDataType: fieldDataType },
         ],
       ],
-      //babelPlugins: []
     },
     // Create sagas
     {
@@ -149,13 +148,6 @@ const addFilterToComponent = (
         ],
       ],
     },
-    // {
-    //   sourceFilePath: `./babelPlugin/addFilter/components/input/filters/AbcFilter.jsx`,
-    //   destinationFilePath: `../react-app/src/${toCamelCaseString(componentName)}/components/filters/${capitalize(toCamelCaseString(denormalizedFieldName))}Filter.jsx`,
-    //   babelPlugins: [
-    //     ['./babelPlugin/addFilter/components/filters/AbcFilter.jsx', {fieldName: denormalizedFieldName}]
-    //   ]
-    // },
     {
       sourceFilePath: `./babelPlugin/addFilter/components/input/filters/${capitalize(
         fieldDataType
@@ -189,33 +181,17 @@ const addFilterToComponent = (
         ],
       ],
     },
-    // api
-    // {
-    //   sourceFilePath: `../react-app/src/${toCamelCaseString(componentName)}/api/results.js`,
-    //   destinationFilePath: `../react-app/src/${toCamelCaseString(componentName)}/api/results.js`,
-    //   babelPlugins: ['./babelPlugin/addFilter/api/results.js']
-    // },
-
-    // `${componentName}/components/NoRecords.jsx`,
-    // `${componentName}/components/Resultss.jsx`,
-    // `${componentName}/constants.js`,
-    // `${componentName}/ducks/index.js`,
-    // `${componentName}/sagas/index.js`,
-    // `${componentName}/sagas/resultsSagas.js`,
-    // `${componentName}/src/index.js`,
   ];
 
   filesToModify.forEach((fileToModify) => {
     if (fs.existsSync(fileToModify.destinationFilePath)) {
       fileToModify.sourceFilePath = fileToModify.destinationFilePath;
     }
-    //console.log(filesToModify.sourceFilePath);
     compileFileWithBabelPlugin(
       fileToModify.sourceFilePath,
       fileToModify.destinationFilePath,
       fileToModify.babelPlugins
     );
-    // console.log(`${fileToModify.sourceFilePath} updated/created`.info);
   });
 };
 
@@ -252,9 +228,7 @@ const compileFileWithBabelPlugin = (
       var cmd = `eslint --no-eslintrc -c ./.eslintrc.js  ${destinationFilePath} --fix`;
       exec(cmd, function (error, stdout, stderr) {
         // command output is in stdout
-        //console.log("error: ", error);
       });
-      //return true;
     }
   );
 };

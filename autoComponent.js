@@ -2,8 +2,8 @@ const chokidar = require("chokidar");
 const fs = require("fs");
 
 const templates = {
-  index: name =>
-    `// @flow
+  index: (name) =>
+    `
 import React from 'react';
 import './${name}.css';
 const ${name} = () => (
@@ -12,7 +12,7 @@ const ${name} = () => (
   </div>
 );
 export default ${name};`,
-  test: name => `// TODO: TDD
+  test: (name) => `// TODO: TDD
 import { shallow, render } from 'enzyme';
 import renderer from 'react-test-renderer';
 import React from 'react';
@@ -26,17 +26,17 @@ describe('The ${name} component', () => {
     expect(tree).toMatchSnapshot();
   });
 });`,
-  sass: name => `.${name.toLowerCase()}
+  sass: (name) => `.${name.toLowerCase()}
   color: initial
-  background: initial`
+  background: initial`,
 };
 
-const fileExists = path => file => fs.existsSync(`${path}/${file}`);
+const fileExists = (path) => (file) => fs.existsSync(`${path}/${file}`);
 
-const writeToPath = path => (file, content) => {
+const writeToPath = (path) => (file, content) => {
   const filePath = `${path}/${file}`;
 
-  fs.writeFile(filePath, content, err => {
+  fs.writeFile(filePath, content, (err) => {
     if (err) throw err;
     console.log("Created file: ", filePath);
     return true;
@@ -47,12 +47,12 @@ function createFiles(path, name) {
   const files = {
     index: "index.jsx",
     test: `${name}.test.js`,
-    sass: `${name}.sass`
+    sass: `${name}.sass`,
   };
 
   if (name !== "components") {
     const writeFile = writeToPath(path);
-    const toFileMissingBool = file => !fileExists(path)(file);
+    const toFileMissingBool = (file) => !fileExists(path)(file);
     const checkAllMissing = (acc, cur) => acc && cur;
 
     const noneExist = Object.values(files)

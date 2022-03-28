@@ -101,13 +101,11 @@ const addPaginationComponent = (componentName) => {
     if (fs.existsSync(fileToModify.destinationFilePath)) {
       fileToModify.sourceFilePath = fileToModify.destinationFilePath;
     }
-    //console.log(filesToModify.sourceFilePath);
     compileFileWithBabelPlugin(
       fileToModify.sourceFilePath,
       fileToModify.destinationFilePath,
       fileToModify.babelPlugins
     );
-    // console.log(`${fileToModify.sourceFilePath} updated/created`.info);
   });
 };
 
@@ -142,10 +140,7 @@ const compileFileWithBabelPlugin = (
       var cmd = `eslint --no-eslintrc -c ./.eslintrc.js  ${destinationFilePath} --fix`;
       exec(cmd, function (error, stdout, stderr) {
         // command output is in stdout
-        //console.log("error: ", error);
       });
-      // console.log("destinationFilePath: ", destinationFilePath);
-      //return true;
     }
   );
 };
