@@ -107,7 +107,7 @@ const addPaginationComponent = (componentName) => {
       fileToModify.destinationFilePath,
       fileToModify.babelPlugins
     );
-    console.log(`${fileToModify.sourceFilePath} updated/created`.info);
+    // console.log(`${fileToModify.sourceFilePath} updated/created`.info);
   });
 };
 
@@ -144,7 +144,7 @@ const compileFileWithBabelPlugin = (
         // command output is in stdout
         //console.log("error: ", error);
       });
-      console.log("destinationFilePath: ", destinationFilePath);
+      // console.log("destinationFilePath: ", destinationFilePath);
       //return true;
     }
   );

@@ -10,7 +10,7 @@ colors.setTheme({
   info: "bgGreen",
   help: "cyan",
   warn: "yellow",
-  success: "bgBlue",
+  success: "green",
   error: "red",
 });
 
@@ -90,7 +90,11 @@ program
       try {
         fse.copySync(sourceDir, destDir, { recursive: true });
         createComponent(answers);
-        console.log("success!");
+        console.log(
+          `√`.help,
+          `Module ${answers.componentName} in ../react-app/src/ created successfully.`
+            .success
+        );
       } catch (err) {
         console.error(err);
       }
@@ -114,6 +118,11 @@ program
           return;
         }
         addPaginationComponent(componentName);
+        console.log(
+          `√`.help,
+          `Pagination in module ${answers.componentName} added successfully.`
+            .success
+        );
       } catch (err) {
         console.error(err);
       }
@@ -128,8 +137,8 @@ program
     prompt(addFilterQuestions).then((answers) => {
       try {
         const { componentName, denormalizedFieldName, fieldDataType } = answers;
-        console.log("field Data Type: ", fieldDataType);
-        console.log("answers: ", answers);
+        // console.log("field Data Type: ", fieldDataType);
+        // console.log("answers: ", answers);
 
         const componentPath = `../react-app/src/${componentName}`;
         if (!fs.existsSync(componentPath)) {
@@ -147,6 +156,11 @@ program
           componentName,
           denormalizedFieldName,
           fieldDataType
+        );
+        console.log(
+          `√`.help,
+          `A filter in module ${answers.componentName} added successfully.`
+            .success
         );
       } catch (err) {
         console.error(err);

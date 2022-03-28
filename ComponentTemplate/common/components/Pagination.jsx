@@ -18,14 +18,6 @@ export const Pagination = props => {
         <div className="col-lg-12 col-md-12">
           <div className="mt-page">
             <ul>
-              <li className="mt-page-tt">Per page:
-                <select onChange={props.onSizeChange} data-name="perPage">
-                  <option value="10">10</option>
-                  {PaginationData.totalRecords > 10 && <option value="25" selected={props.perPageSize === 25}>25</option>}
-                  {PaginationData.totalRecords > 25 && <option value="50" selected={props.perPageSize === 50}>50</option>}
-                  {PaginationData.totalRecords > 50 && <option value="100" selected={props.perPageSize === 100}>100</option>}
-                </select>
-              </li>
               <li className="mt-page-tt">
                 {PaginationData.pageOffsetStart}-{PaginationData.pageOffsetEnd} of <span>{PaginationData.totalRecords}</span>
                 {
@@ -36,6 +28,14 @@ export const Pagination = props => {
                   hasNextPage &&
                   <i className="fal fa-angle-right" data-name="nextPage" data-value={PaginationData.nextPage} onClick={() => props.onChange(PaginationData.nextPage)}> Next</i>
                 }
+              </li>
+              <li className="mt-page-tt">Per page:
+                <select onChange={props.onSizeChange} data-name="perPage" defaultValue={props.perPageSize}>
+                  <option value="10">10</option>
+                  {PaginationData.totalRecords > 10 && <option value="25">25</option>}
+                  {PaginationData.totalRecords > 25 && <option value="50">50</option>}
+                  {PaginationData.totalRecords > 50 && <option value="100">100</option>}
+                </select>
               </li>
             </ul>
           </div>

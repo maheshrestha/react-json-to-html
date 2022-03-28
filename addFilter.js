@@ -215,7 +215,7 @@ const addFilterToComponent = (
       fileToModify.destinationFilePath,
       fileToModify.babelPlugins
     );
-    console.log(`${fileToModify.sourceFilePath} updated/created`.info);
+    // console.log(`${fileToModify.sourceFilePath} updated/created`.info);
   });
 };
 
