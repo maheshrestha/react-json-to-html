@@ -4,12 +4,16 @@
 
 ## Installation and update
 
-  ```npm install -g json-to-react-module```
+  ```
+  npm install -g json-to-react-module
+  ```
 
 ## Usage
 
 ### Create a module
-  ```j2rm crc```
+  ```
+  j2rm crc
+  ```
 
   Following question related to the module will be asked.
   1. Component Name 
@@ -28,7 +32,9 @@
   Module named in the first question will be generated in ./src. A folder named common with supporting files will also be generated in ./src, which will be shared by all the modules.
 
 ### Add pagination to the module list view
-  ```j2rm ap```
+  ```
+  j2rm ap
+  ```
 
   Following question related to the module will be asked.
   1. Component Name 
@@ -37,7 +43,9 @@
   Update the generated modules to add pagination.
 
 ### Add filter to the module list view
+  ```
   j2rm af
+  ```
 
   Following question related to the module will be asked.
   1. Component Name 
