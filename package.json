@@ -107,7 +107,7 @@
     "reselect": "^4.1.5"
   },
   "bin": {
-    "j2rm": "bin/commands.js"
+    "j2rm": "commands.js"
   },
   "resolutions": {
     "webpack-sources": "1.0.1"
