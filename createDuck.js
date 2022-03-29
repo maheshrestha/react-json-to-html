@@ -8,8 +8,8 @@ const getFilesToWriteDucksParams = (
   for (const property in schema) {
     //schemaNames.push({schemaName: property});
     return_params.push({
-      source: "ComponentTemplate/ducks/index.js",
-      destination: `../react-app/src/${toCamelCaseString(
+      source: `${__dirname}/ComponentTemplate/ducks/index.js`,
+      destination: `./src/${toCamelCaseString(
         arguments.componentName
       )}/ducks/index.js`,
       parameters: {
@@ -18,8 +18,8 @@ const getFilesToWriteDucksParams = (
       },
     });
     return_params.push({
-      source: "ComponentTemplate/ducks/listing.js",
-      destination: `../react-app/src/${toCamelCaseString(
+      source: `${__dirname}/ComponentTemplate/ducks/listing.js`,
+      destination: `./src/${toCamelCaseString(
         arguments.componentName
       )}/ducks/listing.js`,
       parameters: {
@@ -27,8 +27,8 @@ const getFilesToWriteDucksParams = (
       },
     });
     return_params.push({
-      source: "ComponentTemplate/ducks/common.js",
-      destination: `../react-app/src/${toCamelCaseString(
+      source: `${__dirname}/ComponentTemplate/ducks/common.js`,
+      destination: `./src/${toCamelCaseString(
         arguments.componentName
       )}/ducks/common.js`,
       parameters: null,
@@ -36,22 +36,22 @@ const getFilesToWriteDucksParams = (
     // return_params
     //   .push(
     //     {
-    //       source: 'ComponentTemplate/ducks/queryParams.js',
-    //       destination: `../react-app/src/${toCamelCaseString(arguments.componentName)}/ducks/queryParams.js`,
+    //       source: `${__dirname}/ComponentTemplate/ducks/queryParams.js`,
+    //       destination: `./src/${toCamelCaseString(arguments.componentName)}/ducks/queryParams.js`,
     //       parameters: null
     //     }
     //   );
     return_params.push({
-      source: "ComponentTemplate/ducks/ui.js",
-      destination: `../react-app/src/${toCamelCaseString(
+      source: `${__dirname}/ComponentTemplate/ducks/ui.js`,
+      destination: `./src/${toCamelCaseString(
         arguments.componentName
       )}/ducks/ui.js`,
       parameters: null,
     });
     schemaNames.forEach((schema) => {
       return_params.push({
-        source: "ComponentTemplate/ducks/record.js",
-        destination: `../react-app/src/${toCamelCaseString(
+        source: `${__dirname}/ComponentTemplate/ducks/record.js`,
+        destination: `./src/${toCamelCaseString(
           arguments.componentName
         )}/ducks/${toCamelCaseString(schema.name)}.js`,
         parameters: {
@@ -60,7 +60,6 @@ const getFilesToWriteDucksParams = (
       });
     });
   }
-  //console.error("return_params: ", return_params);
   return return_params;
 };
 module.exports = {

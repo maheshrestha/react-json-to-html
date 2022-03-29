@@ -8,16 +8,16 @@ const getFilesToWriteDefinationsParams = (
   for (const property in schema) {
     //schemaNames.push({schemaName: property});
     // return_params.push({
-    //   source: "ComponentTemplate/definitions/Pagination.js",
-    //   destination: `../react-app/src/${toCamelCaseString(
+    //   source: `${__dirname}/ComponentTemplate/definitions/Pagination.js`,
+    //   destination: `./src/${toCamelCaseString(
     //     arguments.componentName
     //   )}/definitions/Pagination.js`,
     //   parameters: null,
     // });
     schemaNames.forEach((normalizedSchema) => {
       return_params.push({
-        source: "ComponentTemplate/definitions/Record.js",
-        destination: `../react-app/src/${toCamelCaseString(
+        source: `${__dirname}/ComponentTemplate/definitions/Record.js`,
+        destination: `./src/${toCamelCaseString(
           arguments.componentName
         )}/definitions/${capitalize(
           toCamelCaseString(normalizedSchema.name)

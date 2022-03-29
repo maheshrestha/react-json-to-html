@@ -18,46 +18,44 @@ const addFilterToComponent = (
   denormalizedFieldName,
   fieldDataType
 ) => {
-  fs.mkdirSync(
-    `../react-app/src/${toCamelCaseString(componentName)}/containers/filters`,
-    { recursive: true }
-  );
-  fs.mkdirSync(
-    `../react-app/src/${toCamelCaseString(componentName)}/components/filters`,
-    { recursive: true }
-  );
+  fs.mkdirSync(`./src/${toCamelCaseString(componentName)}/containers/filters`, {
+    recursive: true,
+  });
+  fs.mkdirSync(`./src/${toCamelCaseString(componentName)}/components/filters`, {
+    recursive: true,
+  });
   const filesToModify = [
     // ducks
     {
-      sourceFilePath: `../react-app/src/${toCamelCaseString(
+      sourceFilePath: `./src/${toCamelCaseString(
         componentName
       )}/ducks/index.js`,
-      destinationFilePath: `../react-app/src/${toCamelCaseString(
+      destinationFilePath: `./src/${toCamelCaseString(
         componentName
       )}/ducks/index.js`,
-      babelPlugins: ["./babelPlugin/addFilter/ducks/index.js"],
+      babelPlugins: [`${__dirname}/babelPlugin/addFilter/ducks/index.js`],
     },
     {
-      sourceFilePath: "./babelPlugin/addFilter/ducks/input/filters.js",
-      destinationFilePath: `../react-app/src/${toCamelCaseString(
+      sourceFilePath: `${__dirname}/babelPlugin/addFilter/ducks/input/filters.js`,
+      destinationFilePath: `./src/${toCamelCaseString(
         componentName
       )}/ducks/filters.js`,
       babelPlugins: [
         [
-          "./babelPlugin/addFilter/ducks/filters.js",
+          `${__dirname}/babelPlugin/addFilter/ducks/filters.js`,
           { fieldName: denormalizedFieldName, fieldDataType: fieldDataType },
         ],
       ],
     },
     // Create sagas
     {
-      sourceFilePath: `./babelPlugin/addFilter/sagas/input/filtersSagas.js`,
-      destinationFilePath: `../react-app/src/${toCamelCaseString(
+      sourceFilePath: `${__dirname}/babelPlugin/addFilter/sagas/input/filtersSagas.js`,
+      destinationFilePath: `./src/${toCamelCaseString(
         componentName
       )}/sagas/filtersSagas.js`,
       babelPlugins: [
         [
-          "./babelPlugin/addFilter/sagas/filtersSagas.js",
+          `${__dirname}/babelPlugin/addFilter/sagas/filtersSagas.js`,
           {
             fieldName: denormalizedFieldName,
             fieldDataType: fieldDataType,
@@ -68,33 +66,35 @@ const addFilterToComponent = (
     },
     // Update sagas
     {
-      sourceFilePath: `../react-app/src/${toCamelCaseString(
+      sourceFilePath: `./src/${toCamelCaseString(
         componentName
       )}/sagas/index.js`,
-      destinationFilePath: `../react-app/src/${toCamelCaseString(
+      destinationFilePath: `./src/${toCamelCaseString(
         componentName
       )}/sagas/index.js`,
-      babelPlugins: ["./babelPlugin/addFilter/sagas/index.js"],
+      babelPlugins: [`${__dirname}/babelPlugin/addFilter/sagas/index.js`],
     },
     {
-      sourceFilePath: `../react-app/src/${toCamelCaseString(
+      sourceFilePath: `./src/${toCamelCaseString(
         componentName
       )}/sagas/resultsSagas.js`,
-      destinationFilePath: `../react-app/src/${toCamelCaseString(
+      destinationFilePath: `./src/${toCamelCaseString(
         componentName
       )}/sagas/resultsSagas.js`,
-      babelPlugins: ["./babelPlugin/addFilter/sagas/resultsSagas.js"],
+      babelPlugins: [
+        `${__dirname}/babelPlugin/addFilter/sagas/resultsSagas.js`,
+      ],
     },
 
     // definitions
     {
-      sourceFilePath: "./babelPlugin/addFilter/definitions/input/Filters.js",
-      destinationFilePath: `../react-app/src/${toCamelCaseString(
+      sourceFilePath: `${__dirname}/babelPlugin/addFilter/definitions/input/Filters.js`,
+      destinationFilePath: `./src/${toCamelCaseString(
         componentName
       )}/definitions/Filters.js`,
       babelPlugins: [
         [
-          "./babelPlugin/addFilter/definitions/Filters.js",
+          `${__dirname}/babelPlugin/addFilter/definitions/Filters.js`,
           { fieldName: denormalizedFieldName },
         ],
       ],
@@ -102,81 +102,81 @@ const addFilterToComponent = (
 
     // Create containers
     {
-      sourceFilePath: `./babelPlugin/addFilter/containers/input/Filters.js`,
-      destinationFilePath: `../react-app/src/${toCamelCaseString(
+      sourceFilePath: `${__dirname}/babelPlugin/addFilter/containers/input/Filters.js`,
+      destinationFilePath: `./src/${toCamelCaseString(
         componentName
       )}/containers/Filters.js`,
       babelPlugins: [],
     },
     // Update containers
     {
-      sourceFilePath: `./babelPlugin/addFilter/containers/input/filters/abcFilter.js`,
-      destinationFilePath: `../react-app/src/${toCamelCaseString(
+      sourceFilePath: `${__dirname}/babelPlugin/addFilter/containers/input/filters/abcFilter.js`,
+      destinationFilePath: `./src/${toCamelCaseString(
         componentName
       )}/containers/filters/${toCamelCaseString(
         denormalizedFieldName
       )}Filter.js`,
       babelPlugins: [
         [
-          "./babelPlugin/addFilter/containers/filters/abcFilter.js",
+          `${__dirname}/babelPlugin/addFilter/containers/filters/abcFilter.js`,
           { fieldName: denormalizedFieldName, fieldDataType: fieldDataType },
         ],
       ],
     },
     {
-      sourceFilePath: `./babelPlugin/addFilter/containers/App.js`,
-      destinationFilePath: `../react-app/src/${toCamelCaseString(
+      sourceFilePath: `${__dirname}/babelPlugin/addFilter/containers/App.js`,
+      destinationFilePath: `./src/${toCamelCaseString(
         componentName
       )}/containers/App.js`,
       babelPlugins: [
         [
-          "./babelPlugin/addFilter/containers/App.js",
+          `${__dirname}/babelPlugin/addFilter/containers/App.js`,
           { fieldName: denormalizedFieldName, fieldDataType: fieldDataType },
         ],
       ],
     },
     // components
     {
-      sourceFilePath: `./babelPlugin/addFilter/components/input/Filters.jsx`,
-      destinationFilePath: `../react-app/src/${toCamelCaseString(
+      sourceFilePath: `${__dirname}/babelPlugin/addFilter/components/input/Filters.jsx`,
+      destinationFilePath: `./src/${toCamelCaseString(
         componentName
       )}/components/Filters.jsx`,
       babelPlugins: [
         [
-          "./babelPlugin/addFilter/components/Filters.js",
+          `${__dirname}/babelPlugin/addFilter/components/Filters.js`,
           { fieldName: denormalizedFieldName },
         ],
       ],
     },
     {
-      sourceFilePath: `./babelPlugin/addFilter/components/input/filters/${capitalize(
+      sourceFilePath: `${__dirname}/babelPlugin/addFilter/components/input/filters/${capitalize(
         fieldDataType
       )}Filter.jsx`,
-      destinationFilePath: `../react-app/src/${toCamelCaseString(
+      destinationFilePath: `./src/${toCamelCaseString(
         componentName
       )}/components/filters/${capitalize(fieldDataType)}Filter.jsx`,
       babelPlugins: [],
     },
     {
-      sourceFilePath: `./babelPlugin/addFilter/components/input/App.jsx`,
-      destinationFilePath: `../react-app/src/${toCamelCaseString(
+      sourceFilePath: `${__dirname}/babelPlugin/addFilter/components/input/App.jsx`,
+      destinationFilePath: `./src/${toCamelCaseString(
         componentName
       )}/components/App.jsx`,
       babelPlugins: [
         [
-          "./babelPlugin/addFilter/components/App.js",
+          `${__dirname}/babelPlugin/addFilter/components/App.js`,
           { fieldName: denormalizedFieldName },
         ],
       ],
     },
     {
       sourceFilePath: ``,
-      destinationFilePath: `../react-app/src/${toCamelCaseString(
+      destinationFilePath: `./src/${toCamelCaseString(
         componentName
       )}/constants.js`,
       babelPlugins: [
         [
-          "./babelPlugin/addFilter/constants.js",
+          `${__dirname}/babelPlugin/addFilter/constants.js`,
           { fieldName: denormalizedFieldName, fieldDataType: fieldDataType },
         ],
       ],
@@ -218,7 +218,7 @@ const compileFileWithBabelPlugin = (
     babelrc: false,
     configFile: false,
   });
-  if (sourceFilePath === "../react-app/src/vaccinations/sagas/index.js")
+  if (sourceFilePath === `./src/vaccinations/sagas/index.js`)
     console.log("tttt- ", ast);
   fs.writeFile(
     destinationFilePath,
@@ -234,7 +234,7 @@ const compileFileWithBabelPlugin = (
 };
 
 const isPaginationExist = (componentName) => {
-  const sourceFilePath = `../react-app/src/${componentName}/sagas/index.js`;
+  const sourceFilePath = `./src/${componentName}/sagas/index.js`;
   const source = fs.readFileSync(sourceFilePath, "utf8");
   var ast = getAst(source);
   return !!ast.program.body

@@ -17,7 +17,7 @@ colors.setTheme({
 });
 
 const { createComponent } = require("./index");
-const { info } = require("node-sass");
+// const { info } = require("node-sass");
 
 const questions = [
   {
@@ -87,14 +87,15 @@ program
   .action(() => {
     prompt(questions).then((answers) => {
       //console.info(answers);
-      let sourceDir = "./ComponentTemplate/common";
-      let destDir = "../react-app/src/common";
+      console.log(`Directory name is ${__dirname}`);
+      let sourceDir = `${__dirname}/ComponentTemplate/common`;
+      let destDir = "./src/common";
       try {
         fse.copySync(sourceDir, destDir, { recursive: true });
         createComponent(answers);
         console.log(
           `√`.help,
-          `Module ${answers.componentName} in ../react-app/src/ created successfully.`
+          `Module ${answers.componentName} in ./src/ created successfully.`
             .success
         );
       } catch (err) {
@@ -111,7 +112,7 @@ program
     prompt(addPaginationQuestions).then((answers) => {
       try {
         const { componentName } = answers;
-        const componentPath = `../react-app/src/${componentName}`;
+        const componentPath = `./src/${componentName}`;
         if (!fs.existsSync(componentPath)) {
           console.error(
             `Error orrured when adding filter, Component named "${componentName}" doesnot exists`
@@ -142,7 +143,7 @@ program
         // console.log("field Data Type: ", fieldDataType);
         // console.log("answers: ", answers);
 
-        const componentPath = `../react-app/src/${componentName}`;
+        const componentPath = `./src/${componentName}`;
         if (!fs.existsSync(componentPath)) {
           console.error(
             `Error orrured when adding filter, Component named "${componentName}" doesnot exists`
@@ -178,7 +179,7 @@ program
     var myArgs = process.argv.slice(2);
     //console.error(myArgs);
     //fse.remove("./common", { recursive: true });
-    fse.remove(`../react-app//src/${myArgs[1]}`, { recursive: true });
+    fse.remove(`.//src/${myArgs[1]}`, { recursive: true });
   });
 
 program

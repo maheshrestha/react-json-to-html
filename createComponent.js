@@ -6,29 +6,29 @@ const getFilesToWriteComponentsParams = (
   return_params = []
 ) => {
   return_params.push({
-    source: "ComponentTemplate/components/Loading.jsx",
-    destination: `../react-app/src/${toCamelCaseString(
+    source: `${__dirname}/ComponentTemplate/components/Loading.jsx`,
+    destination: `./src/${toCamelCaseString(
       arguments.componentName
     )}/components/Loading.jsx`,
     parameters: null,
   });
   return_params.push({
-    source: "ComponentTemplate/components/LoadingRequest.jsx",
-    destination: `../react-app/src/${toCamelCaseString(
+    source: `${__dirname}/ComponentTemplate/components/LoadingRequest.jsx`,
+    destination: `./src/${toCamelCaseString(
       arguments.componentName
     )}/components/LoadingRequest.jsx`,
     parameters: null,
   });
   return_params.push({
-    source: "ComponentTemplate/components/Spinner.jsx",
-    destination: `../react-app/src/${toCamelCaseString(
+    source: `${__dirname}/ComponentTemplate/components/Spinner.jsx`,
+    destination: `./src/${toCamelCaseString(
       arguments.componentName
     )}/components/Spinner.jsx`,
     parameters: null,
   });
   return_params.push({
-    source: "ComponentTemplate/components/NoRecords.jsx",
-    destination: `../react-app/src/${toCamelCaseString(
+    source: `${__dirname}/ComponentTemplate/components/NoRecords.jsx`,
+    destination: `./src/${toCamelCaseString(
       arguments.componentName
     )}/components/NoRecords.jsx`,
     parameters: null,
@@ -36,8 +36,8 @@ const getFilesToWriteComponentsParams = (
 
   for (const property in schema) {
     return_params.push({
-      source: "ComponentTemplate/components/App.jsx",
-      destination: `../react-app/src/${toCamelCaseString(
+      source: `${__dirname}/ComponentTemplate/components/App.jsx`,
+      destination: `./src/${toCamelCaseString(
         arguments.componentName
       )}/components/App.jsx`,
       parameters: {
@@ -47,8 +47,8 @@ const getFilesToWriteComponentsParams = (
   }
   normalizedSchemas.forEach((normalizedSchema) => {
     return_params.push({
-      source: "ComponentTemplate/components/Records.jsx",
-      destination: `../react-app/src/${toCamelCaseString(
+      source: `${__dirname}/ComponentTemplate/components/Records.jsx`,
+      destination: `./src/${toCamelCaseString(
         arguments.componentName
       )}/components/${capitalize(
         toCamelCaseString(normalizedSchema.name)
@@ -58,8 +58,8 @@ const getFilesToWriteComponentsParams = (
       },
     });
     return_params.push({
-      source: "ComponentTemplate/components/RecordsTable.jsx",
-      destination: `../react-app/src/${toCamelCaseString(
+      source: `${__dirname}/ComponentTemplate/components/RecordsTable.jsx`,
+      destination: `./src/${toCamelCaseString(
         arguments.componentName
       )}/components/${capitalize(
         toCamelCaseString(normalizedSchema.name)
@@ -69,8 +69,8 @@ const getFilesToWriteComponentsParams = (
       },
     });
     return_params.push({
-      source: "ComponentTemplate/components/Record.jsx",
-      destination: `../react-app/src/${toCamelCaseString(
+      source: `${__dirname}/ComponentTemplate/components/Record.jsx`,
+      destination: `./src/${toCamelCaseString(
         arguments.componentName
       )}/components/${capitalize(
         toCamelCaseString(normalizedSchema.name)
@@ -85,8 +85,8 @@ const getFilesToWriteComponentsParams = (
   //   return_params
   //     .push(
   //       {
-  //         source: 'ComponentTemplate/components/Record.jsx',
-  //         destination: `../react-app/src/${toCamelCaseString(arguments.componentName)}/components/${capitalize(toCamelCaseString(normalizedSchema.name))}.jsx`,
+  //         source: `${__dirname}/ComponentTemplate/components/Record.jsx`,
+  //         destination: `./src/${toCamelCaseString(arguments.componentName)}/components/${capitalize(toCamelCaseString(normalizedSchema.name))}.jsx`,
   //         parameters: {
   //           schema: normalizedSchema
   //         }

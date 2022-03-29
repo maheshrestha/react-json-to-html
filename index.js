@@ -25,25 +25,25 @@ const { unescapeString } = require("@w6s/escape");
 
 function makeDirs(directoryName) {
   // Here we want to make sure our directories exist.
-  fs.mkdirSync(`../react-app/src/${directoryName}`, { recursive: true });
-  fs.mkdirSync(`../react-app/src/${directoryName}/api`, { recursive: true });
-  fs.mkdirSync(`../react-app/src/${directoryName}/components`, {
+  fs.mkdirSync(`./src/${directoryName}`, { recursive: true });
+  fs.mkdirSync(`./src/${directoryName}/api`, { recursive: true });
+  fs.mkdirSync(`./src/${directoryName}/components`, {
     recursive: true,
   });
-  fs.mkdirSync(`../react-app/src/${directoryName}/containers`, {
+  fs.mkdirSync(`./src/${directoryName}/containers`, {
     recursive: true,
   });
-  fs.mkdirSync(`../react-app/src/${directoryName}/definitions`, {
+  fs.mkdirSync(`./src/${directoryName}/definitions`, {
     recursive: true,
   });
-  fs.mkdirSync(`../react-app/src/${directoryName}/ducks`, { recursive: true });
-  fs.mkdirSync(`../react-app/src/${directoryName}/sagas`, { recursive: true });
-  fs.mkdirSync(`../react-app/src/${directoryName}/schemas`, {
+  fs.mkdirSync(`./src/${directoryName}/ducks`, { recursive: true });
+  fs.mkdirSync(`./src/${directoryName}/sagas`, { recursive: true });
+  fs.mkdirSync(`./src/${directoryName}/schemas`, {
     recursive: true,
   });
-  fs.mkdirSync(`../react-app/src/${directoryName}/store`, { recursive: true });
-  //fs.mkdirSync(`../react-app/src/${directoryName}/style`, { recursive: true });
-  fs.mkdirSync(`../react-app/src/${directoryName}/types`, { recursive: true });
+  fs.mkdirSync(`./src/${directoryName}/store`, { recursive: true });
+  //fs.mkdirSync(`./src/${directoryName}/style`, { recursive: true });
+  fs.mkdirSync(`./src/${directoryName}/types`, { recursive: true });
 }
 
 var filesToWrite = (arguments) => {
@@ -84,15 +84,15 @@ var filesToWrite = (arguments) => {
   );
   return [
     {
-      source: "ComponentTemplate/store/configureStore.js",
-      destination: `../react-app/src/${toCamelCaseString(
+      source: `${__dirname}/ComponentTemplate/store/configureStore.js`,
+      destination: `./src/${toCamelCaseString(
         arguments.componentName
       )}/store/configureStore.js`,
       parameters: null,
     },
     {
-      source: "ComponentTemplate/initializer.js",
-      destination: `../react-app/src/${toCamelCaseString(
+      source: `${__dirname}/ComponentTemplate/initializer.js`,
+      destination: `./src/${toCamelCaseString(
         arguments.componentName
       )}/initializer.js`,
       parameters: {
@@ -100,8 +100,8 @@ var filesToWrite = (arguments) => {
       },
     },
     {
-      source: "ComponentTemplate/initializer.js",
-      destination: `../react-app/src/${toCamelCaseString(
+      source: `${__dirname}/ComponentTemplate/initializer.js`,
+      destination: `./src/${toCamelCaseString(
         arguments.componentName
       )}/initializer.js`,
       parameters: {
@@ -109,15 +109,15 @@ var filesToWrite = (arguments) => {
       },
     },
     {
-      source: "ComponentTemplate/index.jsx",
-      destination: `../react-app/src/${toCamelCaseString(
+      source: `${__dirname}/ComponentTemplate/index.jsx`,
+      destination: `./src/${toCamelCaseString(
         arguments.componentName
       )}/index.jsx`,
       parameters: null,
     },
     {
-      source: "ComponentTemplate/constants.js",
-      destination: `../react-app/src/${toCamelCaseString(
+      source: `${__dirname}/ComponentTemplate/constants.js`,
+      destination: `./src/${toCamelCaseString(
         arguments.componentName
       )}/constants.js`,
       parameters: {
@@ -131,8 +131,8 @@ var filesToWrite = (arguments) => {
       },
     },
     {
-      source: "ComponentTemplate/api/records.js",
-      destination: `../react-app/src/${toCamelCaseString(
+      source: `${__dirname}/ComponentTemplate/api/records.js`,
+      destination: `./src/${toCamelCaseString(
         arguments.componentName
       )}/api/${toCamelCaseString(Object.keys(api_list_output)[0])}.js`,
       parameters: {
@@ -142,8 +142,8 @@ var filesToWrite = (arguments) => {
       },
     },
     {
-      source: "ComponentTemplate/schemas/RecordsApiSchema.js",
-      destination: `../react-app/src/${toCamelCaseString(
+      source: `${__dirname}/ComponentTemplate/schemas/RecordsApiSchema.js`,
+      destination: `./src/${toCamelCaseString(
         arguments.componentName
       )}/schemas/${capitalize(
         toCamelCaseString(Object.keys(api_list_output)[0])
@@ -159,8 +159,8 @@ var filesToWrite = (arguments) => {
       },
     },
     {
-      source: "ComponentTemplate/schemas/RecordSchema.js",
-      destination: `../react-app/src/${toCamelCaseString(
+      source: `${__dirname}/ComponentTemplate/schemas/RecordSchema.js`,
+      destination: `./src/${toCamelCaseString(
         arguments.componentName
       )}/schemas/${capitalize(
         toCamelCaseString(Object.keys(api_list_output)[0])

@@ -1,8 +1,8 @@
 const toCamelCase = require("camelcase");
-const toPascalCase = require("pascalcase");
+// const toPascalCase = require("pascalcase");
 
 var toPascalCaseString = (input) => {
-  var pascalCaseString = toPascalCase(input);
+  var pascalCaseString = toCamelCase(input);
   return !!pascalCaseString ? pascalCaseString : input;
 };
 var toCamelCaseString = (input) => {

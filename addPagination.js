@@ -16,11 +16,11 @@ const addPaginationComponent = (componentName) => {
   const filesToModify = [
     // Create sagas
     {
-      sourceFilePath: `./babelPlugin/addPagination/sagas/input/paginationSaga.js`,
-      destinationFilePath: `../react-app/src/common/sagas/paginationSaga.js`,
+      sourceFilePath: `${__dirname}/babelPlugin/addPagination/sagas/input/paginationSaga.js`,
+      destinationFilePath: `./src/common/sagas/paginationSaga.js`,
       babelPlugins: [
         [
-          "./babelPlugin/addPagination/sagas/paginationSaga.js",
+          `${__dirname}/babelPlugin/addPagination/sagas/paginationSaga.js`,
           {
             componentName: toCamelCaseString(componentName),
           },
@@ -28,72 +28,78 @@ const addPaginationComponent = (componentName) => {
       ],
     },
     {
-      sourceFilePath: `../react-app/src/${toCamelCaseString(
+      sourceFilePath: `./src/${toCamelCaseString(
         componentName
       )}/sagas/index.js`,
-      destinationFilePath: `../react-app/src/${toCamelCaseString(
+      destinationFilePath: `./src/${toCamelCaseString(
         componentName
       )}/sagas/index.js`,
-      babelPlugins: ["./babelPlugin/addPagination/sagas/index.js"],
+      babelPlugins: [`${__dirname}/babelPlugin/addPagination/sagas/index.js`],
     },
     {
-      sourceFilePath: `../react-app/src/${toCamelCaseString(
+      sourceFilePath: `./src/${toCamelCaseString(
         componentName
       )}/sagas/resultsSagas.js`,
-      destinationFilePath: `../react-app/src/${toCamelCaseString(
+      destinationFilePath: `./src/${toCamelCaseString(
         componentName
       )}/sagas/resultsSagas.js`,
-      babelPlugins: ["./babelPlugin/addPagination/sagas/resultsSagas.js"],
+      babelPlugins: [
+        `${__dirname}/babelPlugin/addPagination/sagas/resultsSagas.js`,
+      ],
     },
     {
-      sourceFilePath: `../react-app/src/${toCamelCaseString(
+      sourceFilePath: `./src/${toCamelCaseString(
         componentName
       )}/ducks/index.js`,
-      destinationFilePath: `../react-app/src/${toCamelCaseString(
+      destinationFilePath: `./src/${toCamelCaseString(
         componentName
       )}/ducks/index.js`,
-      babelPlugins: ["./babelPlugin/addPagination/ducks/index.js"],
+      babelPlugins: [`${__dirname}/babelPlugin/addPagination/ducks/index.js`],
     },
 
     {
-      sourceFilePath: "./babelPlugin/addPagination/ducks/input/pagination.js",
-      destinationFilePath: `../react-app/src/common/ducks/pagination.js`,
+      sourceFilePath: `${__dirname}/babelPlugin/addPagination/ducks/input/pagination.js`,
+      destinationFilePath: `./src/common/ducks/pagination.js`,
       babelPlugins: [],
     },
     // Update containers
     {
-      sourceFilePath: `./babelPlugin/addPagination/components/App.jsx`,
-      destinationFilePath: `../react-app/src/${toCamelCaseString(
+      sourceFilePath: `${__dirname}/babelPlugin/addPagination/components/App.jsx`,
+      destinationFilePath: `./src/${toCamelCaseString(
         componentName
       )}/components/App.jsx`,
-      babelPlugins: ["./babelPlugin/addPagination/components/App.js"],
+      babelPlugins: [
+        `${__dirname}/babelPlugin/addPagination/components/App.js`,
+      ],
     },
     // definitions
     {
-      sourceFilePath: "./babelPlugin/addFilter/definitions/input/Pagination.js",
-      destinationFilePath: `../react-app/src/common/definitions/Pagination.js`,
+      sourceFilePath: `${__dirname}/babelPlugin/addFilter/definitions/input/Pagination.js`,
+      destinationFilePath: `./src/common/definitions/Pagination.js`,
       babelPlugins: [],
     },
     // helpers
     {
-      sourceFilePath: "./babelPlugin/addPagination/helpers/input/slugs.js",
-      destinationFilePath: `../react-app/src/common/helpers/slugs.js`,
+      sourceFilePath: `${__dirname}/babelPlugin/addPagination/helpers/input/slugs.js`,
+      destinationFilePath: `./src/common/helpers/slugs.js`,
       babelPlugins: [],
     },
     // constants
     {
       sourceFilePath: ``,
-      destinationFilePath: `../react-app/src/${toCamelCaseString(
+      destinationFilePath: `./src/${toCamelCaseString(
         componentName
       )}/constants.js`,
-      babelPlugins: [["./babelPlugin/addPagination/constants.js"]],
+      babelPlugins: [[`${__dirname}/babelPlugin/addPagination/constants.js`]],
     },
     {
-      sourceFilePath: `./babelPlugin/addPagination/containers/App.js`,
-      destinationFilePath: `../react-app/src/${toCamelCaseString(
+      sourceFilePath: `${__dirname}/babelPlugin/addPagination/containers/App.js`,
+      destinationFilePath: `./src/${toCamelCaseString(
         componentName
       )}/containers/App.js`,
-      babelPlugins: [["./babelPlugin/addPagination/containers/App.js"]],
+      babelPlugins: [
+        [`${__dirname}/babelPlugin/addPagination/containers/App.js`],
+      ],
     },
   ];
 
