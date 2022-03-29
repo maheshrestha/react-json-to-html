@@ -1,6 +1,6 @@
 ## Overview
 
-[pos-cli](https://github.com/maheshrestha/react-json-to-html) is a command line tool developed to generate react based module.
+[react-json-to-html](https://github.com/maheshrestha/react-json-to-html) is a command line tool developed to generate react based module.
 
 ## Installation and update
 
