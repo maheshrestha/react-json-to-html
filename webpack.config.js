@@ -1,6 +1,6 @@
 const path = require("path");
 const glob = require("glob");
-const merge = require("webpack-merge");
+const { merge } = require("webpack-merge");
 const parts = require("./__webpack/webpack.parts");
 const webpack = require("webpack");
 const aliases = require("./__webpack/webpack.aliases");
@@ -26,7 +26,7 @@ const commonConfig = merge([
       publicPath: process.env.ASSETS_URL || DEFAULT_ASSETS_URL,
     },
     resolve: {
-      alias: aliases,
+      alias: {},
       extensions: [".js", ".jsx"],
     },
   },
