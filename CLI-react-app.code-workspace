@@ -1,11 +1,14 @@
 {
 	"folders": [
-		{
-			"path": "."
-		},
-		{
-			"path": "../react-app"
-		}
-	],
+    {
+      "path": "."
+    },
+    {
+      "path": "../react-app"
+    },
+    {
+      "path": "../testmypackage"
+    }
+  ],
   "settings": {}
 }
