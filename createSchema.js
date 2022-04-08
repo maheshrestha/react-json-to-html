@@ -26,7 +26,10 @@ const getParameterForRecordSchema = (schema, property) => {
         fieldType: "OrderedSet<string>",
         defaultValue: "OrderedSet()",
       });
-    } else if (typeof schema[property] === "object") {
+    } else if (
+      typeof schema[property] === "object" &&
+      schema[property] !== null
+    ) {
       processStrategyObject.push(`${property}: ${propertyToCamelCaseString}Id`);
       processStrategyEntity.push(
         `${propertyToCamelCaseString}Id: ${capitalize(
@@ -49,9 +52,12 @@ const getParameterForRecordSchema = (schema, property) => {
         schemaType: "string",
         fieldType: typeof schema[property],
         defaultValue: () => {
-          if (typeof schema[property] == "string") {
+          if (
+            typeof schema[property] === "string" ||
+            schema[property] === null
+          ) {
             return "''";
-          } else if (typeof schema[property] == "number") {
+          } else if (typeof schema[property] === "number") {
             return 0;
           } else {
             return null;
@@ -73,8 +79,6 @@ const getParameterForRecordSchema = (schema, property) => {
   };
 };
 const getFilesToWriteSchemaParams = (arguments, schema, return_params = []) => {
-  // return null;
-  //console.error("schema: ", schema);
   for (const property in schema) {
     var propertyToCamelCaseString = toCamelCaseString(property);
     if (!!schema[property] && typeof schema[property] === "object") {
@@ -95,7 +99,6 @@ const getFilesToWriteSchemaParams = (arguments, schema, return_params = []) => {
       getFilesToWriteSchemaParams(arguments, objectToconvert, return_params);
     }
   }
-  //console.error("return: ", return_params);
   return return_params;
 };
 module.exports = {

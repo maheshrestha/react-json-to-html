@@ -1,7 +1,5 @@
 const fs = require("fs");
 const Handlebars = require("handlebars");
-const axios = require("axios");
-const { info } = require("console");
 const {
   getFilesToWriteSchemaParams,
   getParameterForRecordSchema,
@@ -12,16 +10,13 @@ const { getFilesToWriteContainersParams } = require("./createContainer");
 const { getFilesToWriteComponentsParams } = require("./createComponent");
 const { getFilesToWriteDefinationsParams } = require("./createDefinition");
 
-const { api_list_output } = require("./api_output");
+const { getApiListOutput } = require("./apiOutput");
 const {
   toCamelCaseString,
   toPascalCaseString,
   capitalize,
 } = require("./helper");
-
-//const designType = require('./designType');
-//const createType = require('createType');
-const { unescapeString } = require("@w6s/escape");
+const { exec } = require("child_process");
 
 function makeDirs(directoryName) {
   // Here we want to make sure our directories exist.
@@ -45,41 +40,40 @@ function makeDirs(directoryName) {
   //fs.mkdirSync(`./src/${directoryName}/style`, { recursive: true });
   fs.mkdirSync(`./src/${directoryName}/types`, { recursive: true });
 }
+async function getFilesToWrite(arguments) {
+  const apiListOutput = await getApiListOutput(arguments.dataReadEndPointGet);
 
-var filesToWrite = (arguments) => {
-  //const filesToWriteSchemaParams = getFilesToWriteSchemaParams(arguments, Object.values(api_list_output)[0].results[0]);
   const filesToWriteSchemaParams = getFilesToWriteSchemaParams(
     arguments,
-    api_list_output
+    apiListOutput
   );
   const schemas = filesToWriteSchemaParams.map(
     (vv) => vv.parameters.data.schemas
   );
 
-  //console.error("schemas: ", schemas);
   const filesToWriteSagaParams = getFilesToWriteSagaParams(
     arguments,
-    api_list_output,
+    apiListOutput,
     schemas
   );
   const filesToWriteDucksParams = getFilesToWriteDucksParams(
     arguments,
-    api_list_output,
+    apiListOutput,
     schemas
   );
   const filesToWriteContainersParams = getFilesToWriteContainersParams(
     arguments,
-    api_list_output,
+    apiListOutput,
     schemas
   );
   const filesToWriteComponentsParams = getFilesToWriteComponentsParams(
     arguments,
-    api_list_output,
+    apiListOutput,
     schemas
   );
   const fileToWriteDefinationsParams = getFilesToWriteDefinationsParams(
     arguments,
-    api_list_output,
+    apiListOutput,
     schemas
   );
   return [
@@ -134,10 +128,10 @@ var filesToWrite = (arguments) => {
       source: `${__dirname}/ComponentTemplate/api/records.js`,
       destination: `./src/${toCamelCaseString(
         arguments.componentName
-      )}/api/${toCamelCaseString(Object.keys(api_list_output)[0])}.js`,
+      )}/api/${toCamelCaseString(Object.keys(apiListOutput))}.js`,
       parameters: {
         componentName: capitalize(
-          toCamelCaseString(Object.keys(api_list_output)[0])
+          toCamelCaseString(Object.keys(apiListOutput))
         ),
       },
     },
@@ -146,10 +140,10 @@ var filesToWrite = (arguments) => {
       destination: `./src/${toCamelCaseString(
         arguments.componentName
       )}/schemas/${capitalize(
-        toCamelCaseString(Object.keys(api_list_output)[0])
+        toCamelCaseString(Object.keys(apiListOutput))
       )}ApiSchema.js`,
       parameters: {
-        recordsKey: Object.keys(api_list_output)[0],
+        recordsKey: Object.keys(apiListOutput),
         toCamelCaseString: (string) => {
           return toCamelCaseString(string);
         },
@@ -158,20 +152,20 @@ var filesToWrite = (arguments) => {
         },
       },
     },
-    {
-      source: `${__dirname}/ComponentTemplate/schemas/RecordSchema.js`,
-      destination: `./src/${toCamelCaseString(
-        arguments.componentName
-      )}/schemas/${capitalize(
-        toCamelCaseString(Object.keys(api_list_output)[0])
-      )}Schema.js`,
-      parameters: {
-        data: getParameterForRecordSchema(
-          api_list_output.results[0],
-          Object.keys(api_list_output)[0]
-        ),
-      },
-    },
+    // {
+    //   source: `${__dirname}/ComponentTemplate/schemas/RecordSchema.js`,
+    //   destination: `./src/${toCamelCaseString(
+    //     arguments.componentName
+    //   )}/schemas/${capitalize(
+    //     toCamelCaseString(Object.keys(apiListOutput)[0])
+    //   )}Schema.js`,
+    //   parameters: {
+    //     data: getParameterForRecordSchema(
+    //       apiListOutput,
+    //       Object.keys(apiListOutput)[0]
+    //     ),
+    //   },
+    // },
   ]
     .concat(filesToWriteSchemaParams)
     .concat(filesToWriteSagaParams)
@@ -179,12 +173,13 @@ var filesToWrite = (arguments) => {
     .concat(filesToWriteContainersParams)
     .concat(filesToWriteComponentsParams)
     .concat(fileToWriteDefinationsParams);
-};
+}
 
-const createComponent = (arguments) => {
+const createComponent = async (arguments) => {
+  const apiListOutput = await getApiListOutput(arguments.dataReadEndPointGet);
   makeDirs(toCamelCaseString(arguments.componentName));
   var returnValues = "";
-  const recordApiOutput = api_list_output.results[0];
+  const recordApiOutput = apiListOutput;
   Handlebars.registerHelper("toCamelCaseString", function (aString) {
     return toCamelCaseString(aString);
   });
@@ -195,15 +190,15 @@ const createComponent = (arguments) => {
     return capitalize(toCamelCaseString(aString));
   });
   Handlebars.registerHelper("unescapeString", function (aString) {
-    return unescapeString(aString);
+    return decodeURIComponent(aString);
   });
   for (const property in recordApiOutput) {
     if (typeof recordApiOutput[property] === "object") {
       var returnValues = `${returnValues} ${property}: ${property}Id,`;
     }
-    // console.log(`${returnValues}`);
   }
-  filesToWrite(arguments).forEach((fileToWrite) => {
+  const filesToWrite = await getFilesToWrite(arguments);
+  filesToWrite.forEach((fileToWrite) => {
     fs.readFile(fileToWrite.source, "utf8", function (err, data) {
       if (err) {
         return console.info(err);

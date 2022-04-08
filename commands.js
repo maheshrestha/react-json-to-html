@@ -17,18 +17,11 @@ colors.setTheme({
 });
 
 const { createComponent } = require("./index");
-// const { info } = require("node-sass");
-
 const questions = [
   {
     type: "input",
     name: "componentName",
     message: "Component Name",
-  },
-  {
-    type: "input",
-    name: "resourceId",
-    message: "Resource ID",
   },
   {
     type: "input",
@@ -86,8 +79,6 @@ program
   .description("Create a component")
   .action(() => {
     prompt(questions).then((answers) => {
-      //console.info(answers);
-      console.log(`Directory name is ${__dirname}`);
       let sourceDir = `${__dirname}/ComponentTemplate/common`;
       let destDir = "./src/common";
       try {
