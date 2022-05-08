@@ -1,5 +1,5 @@
 const { generateImportDeclaration } = require("../../babelHelper");
-const { looksLike } = require("../../helper");
+const { looksLike, toCamelCaseString, capitalize } = require("../../../helper");
 module.exports = function (babel) {
   const { types: t } = babel;
   return {
@@ -14,9 +14,19 @@ module.exports = function (babel) {
           "setTotalEntries, getQueryFromPagination",
           "../../common/ducks/pagination"
         );
+        generateImportDeclaration(
+          t,
+          body,
+          "select",
+          "select",
+          "redux-saga/effects"
+        );
       },
-      FunctionDeclaration(type) {
+      FunctionDeclaration(type, state) {
         const node = type.node;
+        const componentName = state.opts.componentName;
+        const paginationKey = state.opts.paginationKey;
+        const totalEntriesKey = state.opts.totalEntriesKey;
         node.body.body.forEach((b) => {
           if (looksLike(b, { type: "VariableDeclaration" })) {
             b.declarations.forEach((declaration) => {
@@ -29,7 +39,7 @@ module.exports = function (babel) {
             });
           }
         });
-        if (node.id.name === "loadResultsSaga") {
+        if (node.id.name === `load${capitalize(componentName)}Saga`) {
           const dataIfStatementBody = node.body.body.find(
             (nb) =>
               nb.type === "IfStatement" &&
@@ -41,21 +51,23 @@ module.exports = function (babel) {
               (r) => r.type === "VariableDeclaration"
             );
           const resultVariableDeclarator = resultVariableDeclarations
-            .find((d) => d.declarations.find((s) => s.init.name === "result"))
-            .declarations.find((d) => d.init.name === "result");
+            .find((d) => d.declarations.find((s) => s.init.name === "entities"))
+            .declarations.find((d) => d.init.name === "entities");
           if (
-            !resultVariableDeclarator.id.properties.find(
-              (r) =>
-                r.value.name === "totalEntries" &&
-                r.key.name === "total_entries"
+            resultVariableDeclarator.id.properties.find(
+              (r) => r.key.name === toCamelCaseString(paginationKey)
             )
           ) {
-            resultVariableDeclarator.id.properties.push(
-              t.Identifier("total_entries: totalEntries")
-            );
             dataIfStatementBody.consequent.body.push(
-              t.Identifier("yield put(setTotalEntries(totalEntries));")
+              t.Identifier(
+                `yield put(setTotalEntries(Object.values(${toCamelCaseString(
+                  paginationKey
+                )})[0].${toCamelCaseString(totalEntriesKey)}));`
+              )
+              // t.Identifier("yield put(setTotalEntries(totalEntries));")
             );
+          } else {
+            console.log("Pagination key not found");
           }
         }
       },

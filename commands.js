@@ -17,31 +17,42 @@ colors.setTheme({
 });
 
 const { createComponent } = require("./index");
+const { pathToComponentTemplate, toCamelCaseString } = require("./helper.js");
+const validateUniqueComponentName = (input, done) => {
+  const componentPath = `./src/${toCamelCaseString(input)}`;
+  if (fs.existsSync(componentPath)) {
+    done("Component already exists.");
+    return;
+  }
+};
+const validateExistedComponentName = (input, done) => {
+  const componentPath = `./src/${toCamelCaseString(input)}`;
+  if (!fs.existsSync(componentPath)) {
+    done("Component does not exists.");
+    return;
+  }
+};
+const validateComponentName = (input, done) => {
+  if (!/^[A-Za-z0-9]*$/.test(input)) {
+    done("Component name can't include other than alphanumeric values.");
+    return;
+  }
+  done(null, true);
+};
 const questions = [
   {
     type: "input",
     name: "componentName",
     message: "Component Name",
+    validate: function (input) {
+      validateUniqueComponentName(input, this.async());
+      validateComponentName(input, this.async());
+    },
   },
   {
     type: "input",
     name: "dataReadEndPointGet",
     message: "Data List Endpoint (get method)",
-  },
-  {
-    type: "input",
-    name: "dataCreateEndPointPost",
-    message: "Data Create Endpoint (Post method)",
-  },
-  {
-    type: "input",
-    name: "dataUpdateEndPointPost",
-    message: "Data Update Endpoint (Post method)",
-  },
-  {
-    type: "input",
-    name: "dataDeleteEndPointGet",
-    message: "Data Delete Endpoint (get method)",
   },
 ];
 const addPaginationQuestions = [
@@ -49,6 +60,20 @@ const addPaginationQuestions = [
     type: "input",
     name: "componentName",
     message: "Component Name",
+    validate: function (input) {
+      validateExistedComponentName(input, this.async());
+      validateComponentName(input, this.async());
+    },
+  },
+  {
+    type: "input",
+    name: "paginationKey",
+    message: "Pagination Key (hit enter if pagination data are in root)",
+  },
+  {
+    type: "input",
+    name: "totalEntriesKey",
+    message: "Total Entries Key",
   },
 ];
 
@@ -57,6 +82,10 @@ const addFilterQuestions = [
     type: "input",
     name: "componentName",
     message: "Component Name",
+    validate: function (input) {
+      validateExistedComponentName(input, this.async());
+      validateComponentName(input, this.async());
+    },
   },
   {
     type: "input",
@@ -78,17 +107,32 @@ program
   .alias("crc")
   .description("Create a component")
   .action(() => {
-    prompt(questions).then((answers) => {
-      let sourceDir = `${__dirname}/ComponentTemplate/common`;
+    prompt(questions).then(async (answers) => {
+      answers.language = "Plain javascript";
+      answers.componentName = answers.componentName
+        ? answers.componentName
+        : "books";
+      answers.dataReadEndPointGet = answers.dataReadEndPointGet
+        ? answers.dataReadEndPointGet
+        : "http://localhost:3000/api_output.json";
+      let sourceDir = `${pathToComponentTemplate(answers.language)}/common`;
       let destDir = "./src/common";
       try {
+        const componentPath = `./src/${toCamelCaseString(
+          answers.componentName
+        )}`;
+        if (fs.existsSync(componentPath)) {
+          console.error(
+            `Component named "${answers.componentName}" already exists`.error
+          );
+          return;
+        }
         fse.copySync(sourceDir, destDir, { recursive: true });
-        createComponent(answers);
         console.log(
-          `√`.help,
-          `Module ${answers.componentName} in ./src/ created successfully.`
-            .success
+          `Creating component ${answers.componentName} in ./src/...`.help
         );
+        await createComponent(answers);
+        console.log(`√`.help, `Done!`.success);
       } catch (err) {
         console.error(err);
       }
@@ -100,23 +144,36 @@ program
   .alias("ap")
   .description("Add Pagination")
   .action(() => {
-    prompt(addPaginationQuestions).then((answers) => {
+    prompt(addPaginationQuestions).then(async (answers) => {
       try {
-        const { componentName } = answers;
+        const { componentName, totalEntriesKey } = answers;
+        const paginationKey = answers.paginationKey
+          ? answer.paginationKey
+          : `${componentName}_api`;
         const componentPath = `./src/${componentName}`;
         if (!fs.existsSync(componentPath)) {
           console.error(
-            `Error orrured when adding filter, Component named "${componentName}" doesnot exists`
+            `Error orrured when adding pagination, Component named "${componentName}" doesnot exists`
               .error
           );
           return;
         }
-        addPaginationComponent(componentName);
+        if (!totalEntriesKey) {
+          console.error(
+            `Error orrured when adding pagination, pagination key cannot be empty`
+              .error
+          );
+          return;
+        }
         console.log(
-          `√`.help,
-          `Pagination in module ${answers.componentName} added successfully.`
-            .success
+          `Adding pagination in module ${answers.componentName}.`.help
         );
+        await addPaginationComponent(
+          componentName,
+          paginationKey,
+          totalEntriesKey
+        );
+        console.log(`√ Done!`.success);
       } catch (err) {
         console.error(err);
       }
@@ -128,12 +185,10 @@ program
   .alias("af")
   .description("Add Filter")
   .action(() => {
-    prompt(addFilterQuestions).then((answers) => {
+    prompt(addFilterQuestions).then(async (answers) => {
       try {
-        const { componentName, denormalizedFieldName, fieldDataType } = answers;
-        // console.log("field Data Type: ", fieldDataType);
-        // console.log("answers: ", answers);
-
+        const { denormalizedFieldName, fieldDataType } = answers;
+        const componentName = toCamelCaseString(answers.componentName);
         const componentPath = `./src/${componentName}`;
         if (!fs.existsSync(componentPath)) {
           console.error(
@@ -146,18 +201,15 @@ program
           console.error(`Denormalized Field Name can't be empty.`.error);
           return;
         }
-        addFilterToComponent(
+        console.log(`Adding filter in module ${answers.componentName}.`.help);
+        await addFilterToComponent(
           componentName,
           denormalizedFieldName,
           fieldDataType
         );
-        console.log(
-          `√`.help,
-          `A filter in module ${answers.componentName} added successfully.`
-            .success
-        );
+        console.log(`√ Done!`.success);
       } catch (err) {
-        console.error(err);
+        console.log(err);
       }
     });
   });

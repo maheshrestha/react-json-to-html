@@ -1,65 +1,61 @@
-const { toCamelCaseString, capitalize } = require("./helper");
+const {
+  toCamelCaseString,
+  capitalize,
+  pathToComponentTemplate,
+} = require("./helper");
 const getFilesToWriteDucksParams = (
   arguments,
-  schema,
+  apiListOutput,
   schemaNames,
   return_params = []
 ) => {
-  for (const property in schema) {
-    //schemaNames.push({schemaName: property});
+  const pathToTemplate = pathToComponentTemplate(arguments.language);
+  // return_params.push({
+  //   source: `${pathToTemplate}/ducks/listing.js`,
+  //   destination: `./src/${toCamelCaseString(
+  //     arguments.componentName
+  //   )}/ducks/listing.js`,
+  //   parameters: {
+  //     componentName: arguments.componentName,
+  //     schemas: Object.keys(apiListOutput).map(function (key, index) {
+  //       if (Array.isArray(apiListOutput[key])) return { name: key };
+  //     }),
+  //   },
+  // });
+  return_params.push({
+    source: `${pathToTemplate}/ducks/index.js`,
+    destination: `./src/${toCamelCaseString(
+      arguments.componentName
+    )}/ducks/index.js`,
+    parameters: {
+      schemas: schemaNames,
+    },
+  });
+  return_params.push({
+    source: `${pathToTemplate}/ducks/common.js`,
+    destination: `./src/${toCamelCaseString(
+      arguments.componentName
+    )}/ducks/common.js`,
+    parameters: null,
+  });
+  return_params.push({
+    source: `${pathToTemplate}/ducks/ui.js`,
+    destination: `./src/${toCamelCaseString(
+      arguments.componentName
+    )}/ducks/ui.js`,
+    parameters: null,
+  });
+  schemaNames.forEach((schema) => {
     return_params.push({
-      source: `${__dirname}/ComponentTemplate/ducks/index.js`,
+      source: `${pathToTemplate}/ducks/record.js`,
       destination: `./src/${toCamelCaseString(
         arguments.componentName
-      )}/ducks/index.js`,
+      )}/ducks/${toCamelCaseString(schema.name)}.js`,
       parameters: {
-        recordKey: property,
-        schemas: schemaNames,
+        schemaName: schema.name,
       },
     });
-    return_params.push({
-      source: `${__dirname}/ComponentTemplate/ducks/listing.js`,
-      destination: `./src/${toCamelCaseString(
-        arguments.componentName
-      )}/ducks/listing.js`,
-      parameters: {
-        recordKey: property,
-      },
-    });
-    return_params.push({
-      source: `${__dirname}/ComponentTemplate/ducks/common.js`,
-      destination: `./src/${toCamelCaseString(
-        arguments.componentName
-      )}/ducks/common.js`,
-      parameters: null,
-    });
-    // return_params
-    //   .push(
-    //     {
-    //       source: `${__dirname}/ComponentTemplate/ducks/queryParams.js`,
-    //       destination: `./src/${toCamelCaseString(arguments.componentName)}/ducks/queryParams.js`,
-    //       parameters: null
-    //     }
-    //   );
-    return_params.push({
-      source: `${__dirname}/ComponentTemplate/ducks/ui.js`,
-      destination: `./src/${toCamelCaseString(
-        arguments.componentName
-      )}/ducks/ui.js`,
-      parameters: null,
-    });
-    schemaNames.forEach((schema) => {
-      return_params.push({
-        source: `${__dirname}/ComponentTemplate/ducks/record.js`,
-        destination: `./src/${toCamelCaseString(
-          arguments.componentName
-        )}/ducks/${toCamelCaseString(schema.name)}.js`,
-        parameters: {
-          schemaName: schema.name,
-        },
-      });
-    });
-  }
+  });
   return return_params;
 };
 module.exports = {

@@ -12,7 +12,11 @@ colors.setTheme({
   success: "green",
   error: "red",
 });
-const addPaginationComponent = (componentName) => {
+const addPaginationComponent = (
+  componentName,
+  paginationKey,
+  totalEntriesKey
+) => {
   const filesToModify = [
     // Create sagas
     {
@@ -39,12 +43,19 @@ const addPaginationComponent = (componentName) => {
     {
       sourceFilePath: `./src/${toCamelCaseString(
         componentName
-      )}/sagas/resultsSagas.js`,
+      )}/sagas/${toCamelCaseString(componentName)}Sagas.js`,
       destinationFilePath: `./src/${toCamelCaseString(
         componentName
-      )}/sagas/resultsSagas.js`,
+      )}/sagas/${toCamelCaseString(componentName)}Sagas.js`,
       babelPlugins: [
-        `${__dirname}/babelPlugin/addPagination/sagas/resultsSagas.js`,
+        [
+          `${__dirname}/babelPlugin/addPagination/sagas/resultsSagas.js`,
+          {
+            componentName: componentName,
+            paginationKey: paginationKey,
+            totalEntriesKey: totalEntriesKey,
+          },
+        ],
       ],
     },
     {
@@ -138,13 +149,14 @@ const compileFileWithBabelPlugin = (
     babelrc: false,
     configFile: false,
   });
-  fs.writeFile(
+  fs.writeFileSync(
     destinationFilePath,
     transformFromAstSync.code,
     "utf8",
     function () {
-      var cmd = `eslint --no-eslintrc -c ./.eslintrc.js  ${destinationFilePath} --fix`;
+      var cmd = `eslint ${destinationFilePath} --fix`;
       exec(cmd, function (error, stdout, stderr) {
+        if (error) console.log(error);
         // command output is in stdout
       });
     }

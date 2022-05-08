@@ -1,6 +1,6 @@
 {
   "name": "json-to-react-module",
-  "version": "1.0.10",
+  "version": "2.0.6",
   "description": "",
   "main": "index1.js",
   "scripts": {
@@ -12,7 +12,11 @@
   },
   "author": "Mahesh",
   "license": "ISC",
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^8.14.0",
+    "eslint-plugin-react": "^7.29.4",
+    "standard": "^17.0.0"
+  },
   "dependencies": {
     "@babel/core": "^7.17.8",
     "axios": "^0.26.1",

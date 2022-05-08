@@ -1,10 +1,16 @@
 const axios = require("axios");
 
-async function getApiListOutput(url) {
+async function getJosnInputToCreateModule({
+  dataReadEndPointGet,
+  componentName,
+}) {
   return axios
-    .get(url)
+    .get(dataReadEndPointGet)
     .then((response) => {
-      return depthFirstArrayOfObject(response.data);
+      return Array.isArray(response.data)
+        ? { [`${componentName}`]: response.data }
+        : { [`${componentName}_api`]: response.data };
+      // return depthFirstArrayOfObject(response.data);
     })
     .catch((error) => {
       console.log(error);
@@ -32,6 +38,7 @@ const depthFirstArrayOfObject = (obj) => {
   console.log(ss);
   return null;
 };
+
 module.exports = {
-  getApiListOutput,
+  getJosnInputToCreateModule,
 };

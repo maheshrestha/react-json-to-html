@@ -4,10 +4,7 @@
       "path": "."
     },
     {
-      "path": "../react-app"
-    },
-    {
-      "path": "../testmypackage"
+      "path": "../reactApp"
     }
   ],
   "settings": {}

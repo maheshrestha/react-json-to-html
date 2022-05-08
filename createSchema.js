@@ -1,6 +1,10 @@
-const { toCamelCaseString, capitalize } = require("./helper");
+const {
+  toCamelCaseString,
+  capitalize,
+  pathToComponentTemplate,
+} = require("./helper");
 
-const getParameterForRecordSchema = (schema, property) => {
+const getParameterForRecordSchema = (schema, property, schemaType) => {
   var processStrategyObject = [];
   var processStrategyReturn = [];
   var processStrategyEntity = [];
@@ -9,7 +13,10 @@ const getParameterForRecordSchema = (schema, property) => {
   var schemaFields = [];
   for (const property in schema) {
     var propertyToCamelCaseString = toCamelCaseString(property);
-    if (Array.isArray(schema[property])) {
+    if (
+      Array.isArray(schema[property]) &&
+      typeof schema[property][0] === "object"
+    ) {
       processStrategyObject.push(
         `${property}: ${propertyToCamelCaseString}Ids`
       );
@@ -28,6 +35,7 @@ const getParameterForRecordSchema = (schema, property) => {
       });
     } else if (
       typeof schema[property] === "object" &&
+      !Array.isArray(schema[property]) &&
       schema[property] !== null
     ) {
       processStrategyObject.push(`${property}: ${propertyToCamelCaseString}Id`);
@@ -60,17 +68,20 @@ const getParameterForRecordSchema = (schema, property) => {
           } else if (typeof schema[property] === "number") {
             return 0;
           } else {
-            return null;
+            return "undefined";
           }
         },
       });
     }
   }
+  const schemaHasIdKey = "id" in schema;
   return {
     schemas: {
       name: property,
+      schemaType: schemaType,
       fields: schemaFields,
     },
+    schemaHasIdKey: schemaHasIdKey,
     processStrategyObject: `${processStrategyObject.join(", \n\t\t")}`,
     processStrategyReturn: `${processStrategyReturn.join(", \n\t\t")}`,
     processStrategyEntity: `${processStrategyEntity.join(", \n\t\t")}`,
@@ -79,21 +90,36 @@ const getParameterForRecordSchema = (schema, property) => {
   };
 };
 const getFilesToWriteSchemaParams = (arguments, schema, return_params = []) => {
+  const pathToTemplate = pathToComponentTemplate(arguments.language);
   for (const property in schema) {
     var propertyToCamelCaseString = toCamelCaseString(property);
-    if (!!schema[property] && typeof schema[property] === "object") {
+    if (
+      (!!schema[property] &&
+        typeof schema[property] === "object" &&
+        !Array.isArray(schema[property])) ||
+      (!!schema[property] &&
+        Array.isArray(schema[property]) &&
+        typeof schema[property][0] === "object")
+    ) {
       if (Array.isArray(schema[property])) {
         var objectToconvert = schema[property][0];
+        var objectType = "Array<Object>";
       } else {
         var objectToconvert = schema[property];
+        var objectType = "Object";
       }
       return_params.push({
-        source: `${__dirname}/ComponentTemplate/schemas/RecordSchema.js`,
+        source: `${pathToTemplate}/schemas/RecordSchema.js`,
+        sechemaType: objectType,
         destination: `./src/${toCamelCaseString(
           arguments.componentName
         )}/schemas/${capitalize(propertyToCamelCaseString)}Schema.js`,
         parameters: {
-          data: getParameterForRecordSchema(objectToconvert, property),
+          data: getParameterForRecordSchema(
+            objectToconvert,
+            property,
+            objectType
+          ),
         },
       });
       getFilesToWriteSchemaParams(arguments, objectToconvert, return_params);

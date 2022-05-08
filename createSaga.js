@@ -1,34 +1,23 @@
-const { toCamelCaseString, capitalize } = require("./helper");
-const getFilesToWriteSagaParams = (
-  arguments,
-  schema,
-  schemaNames,
-  return_params = []
-) => {
-  for (const property in schema) {
-    if (!!schema[property] && typeof schema[property] === "object") {
-      var propertyToCamelCaseString = toCamelCaseString(property);
-      return_params.push({
-        source: `${__dirname}/ComponentTemplate/sagas/index.js`,
-        destination: `./src/${toCamelCaseString(
-          arguments.componentName
-        )}/sagas/index.js`,
-        parameters: {
-          componentName: propertyToCamelCaseString,
-        },
-      });
-      return_params.push({
-        source: `${__dirname}/ComponentTemplate/sagas/recordSagas.js`,
-        destination: `./src/${toCamelCaseString(
-          arguments.componentName
-        )}/sagas/${propertyToCamelCaseString}Sagas.js`,
-        parameters: {
-          schemas: schemaNames,
-          recordsKey: property,
-        },
-      });
-    }
-  }
+const { toCamelCaseString, pathToComponentTemplate } = require("./helper");
+const getFilesToWriteSagaParams = (arguments, schemaNames) => {
+  const pathToComponent = pathToComponentTemplate(arguments.language);
+  const camelCaseComponentName = toCamelCaseString(arguments.componentName);
+  let return_params = [];
+  return_params.push({
+    source: `${pathToComponent}/sagas/index.js`,
+    destination: `./src/${camelCaseComponentName}/sagas/index.js`,
+    parameters: {
+      componentName: camelCaseComponentName,
+    },
+  });
+  return_params.push({
+    source: `${pathToComponent}/sagas/recordSagas.js`,
+    destination: `./src/${camelCaseComponentName}/sagas/${camelCaseComponentName}Sagas.js`,
+    parameters: {
+      schemas: schemaNames,
+      componentName: camelCaseComponentName,
+    },
+  });
   return return_params;
 };
 module.exports = {

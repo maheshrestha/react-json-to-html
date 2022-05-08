@@ -32,23 +32,7 @@ module.exports = function (babel, kk) {
             ],
           });
         });
-        if (!isPaginationTypeImported.includes(true)) {
-          const paginationImportTypeDeclaration = t.ImportDeclaration(
-            [
-              t.ImportSpecifier(
-                t.Identifier("PaginationAction"),
-                t.Identifier("PaginationAction")
-              ),
-              t.ImportSpecifier(
-                t.Identifier("PaginationState"),
-                t.Identifier("PaginationState")
-              ),
-            ],
-            t.StringLiteral("../../common/ducks/pagination")
-          );
-          paginationImportTypeDeclaration.importKind = "type";
-          body.push(paginationImportTypeDeclaration);
-        }
+
         if (!isPaginationImported.includes(true)) {
           const paginationImportDeclaration = t.ImportDeclaration(
             [
