@@ -4,21 +4,24 @@ import {{ toCamelCaseAndCapitalize this }}Schema from './{{ toCamelCaseAndCapita
 {{/each}}
 {{#unless data.schemaHasIdKey}}
 import { v4 as uuidv4 } from "uuid";
-const randomStringAsId = uuidv4();
+var {{ toCamelCaseString data.recordsKey }}Id;
 {{/unless}}
 
 function idAttribute({{ toCamelCaseString data.recordsKey}}) {
   {{#if data.schemaHasIdKey}}
     return {{ toCamelCaseString data.recordsKey}}.id;
   {{else}}
-    return {{ toCamelCaseString data.recordsKey}}.id ? {{ toCamelCaseString data.recordsKey}}.id : randomStringAsId;
+    return {{ toCamelCaseString data.recordsKey}}.id ? {{ toCamelCaseString data.recordsKey}}.id.toString() : {{ toCamelCaseString data.recordsKey }}Id;
   {{/if}}
 }
 
 function processStrategy({{ toCamelCaseString data.recordsKey}}) {
+  {{#unless data.schemaHasIdKey}}
+    {{ toCamelCaseString data.recordsKey }}Id = uuidv4();
+  {{/unless}}
   const { 
     {{#unless data.schemaHasIdKey}}
-      id: id,
+      id,
     {{/unless}}
     {{ data.processStrategyObject }}, 
     ...rest 
@@ -26,7 +29,7 @@ function processStrategy({{ toCamelCaseString data.recordsKey}}) {
 
   return {
     {{#unless data.schemaHasIdKey}}
-      id: {{ toCamelCaseString data.recordsKey}}.id ? {{ toCamelCaseString data.recordsKey}}.id : randomStringAsId,
+      id: {{ toCamelCaseString data.recordsKey}}.id ? {{ toCamelCaseString data.recordsKey}}.id.toString() : {{ toCamelCaseString data.recordsKey }}Id,
     {{/unless}}
 
     {{ data.processStrategyReturn }},

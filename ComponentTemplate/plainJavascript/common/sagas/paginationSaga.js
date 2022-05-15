@@ -11,7 +11,7 @@ function getStateReadyNumber(val) {
 function* setPaginationFromUrlSaga({ urlRegexps }) {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
-  const paginationFilters = urlParams.get(FILTER_PARAM_NAME);
+  const paginationFilters = urlParams.get(urlRegexps.filterParamsKey);
 
   if (!paginationFilters) {
     return;

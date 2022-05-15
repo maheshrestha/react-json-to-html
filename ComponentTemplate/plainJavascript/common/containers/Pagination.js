@@ -32,20 +32,16 @@ const mapStateToProps = (state) => {
     paginationValue,
   };
 };
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onChange: function (page) {
       dispatch(setCurrentPage(parseInt(page)));
-      dispatch({
-        type: "sagas/results/LOAD",
-      });
+      dispatch(ownProps.onChange);
     },
     onSizeChange: function (e) {
       dispatch(setPerPageSize(parseInt(e.currentTarget.value)));
       dispatch(setCurrentPage(1));
-      dispatch({
-        type: "sagas/results/LOAD",
-      });
+      dispatch(ownProps.onChange);
     },
     setPaginationFromUrl: () => {
       dispatch(setPaginationFromUrl());

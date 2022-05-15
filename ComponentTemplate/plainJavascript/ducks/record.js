@@ -38,9 +38,12 @@ export const get{{ toCamelCaseAndCapitalize schemaName }}s = (state) => {
 };
 
 export const getListReady{{ toCamelCaseAndCapitalize schemaName }}Ids = (state) => {
-  const {{ toCamelCaseAndCapitalize schemaName }}s = get{{ toCamelCaseAndCapitalize schemaName }}s(state);
+  const {{ toCamelCaseString schemaName }}s = get{{ toCamelCaseAndCapitalize schemaName }}s(state);
   // perform filter and sorting if necessary
-  return {{ toCamelCaseAndCapitalize schemaName }}s.map(({{ toCamelCaseAndCapitalize schemaName }}) => {{ toCamelCaseAndCapitalize schemaName }}.id).toOrderedSet();
+  const filteredAndSorted{{ toCamelCaseAndCapitalize schemaName }} = {{ toCamelCaseString schemaName }}s;
+  const filteredAndSortedIds = filteredAndSorted{{ toCamelCaseAndCapitalize schemaName }}.map((r) => r.id);
+  //.slice(paginationValue.min, paginationValue.max)
+  return filteredAndSortedIds.toOrderedSet();
 };
 
 // REDUCERS

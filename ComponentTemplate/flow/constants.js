@@ -11,7 +11,5 @@ export const PARENT_RESOURCE_ID = "{{ resourceID }}";
 export const ORDER_DESC = "DESC";
 export const ORDER_ASC = "ASC";
 
-export const URL_REGEXPS = {
-  prefix: "",
-};
-export const FILTER_PARAM_NAME = "{{ filterParamName }}";
+export const URL_REGEXPS = {};
+// export const FILTER_PARAM_NAME = "{{ filterParamName }}";

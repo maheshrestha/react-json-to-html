@@ -54,7 +54,11 @@ const getParameterForRecordSchema = (schema, property, schemaType) => {
       });
     } else {
       processStrategyObject.push(`${property}: ${propertyToCamelCaseString}`);
-      processStrategyReturn.push(`${propertyToCamelCaseString}`);
+      if (propertyToCamelCaseString === "id") {
+        processStrategyReturn.push(`id: id.toString()`);
+      } else {
+        processStrategyReturn.push(`${propertyToCamelCaseString}`);
+      }
       schemaFields.push({
         schemaField: `${propertyToCamelCaseString}`,
         schemaType: "string",
@@ -66,7 +70,7 @@ const getParameterForRecordSchema = (schema, property, schemaType) => {
           ) {
             return "''";
           } else if (typeof schema[property] === "number") {
-            return 0;
+            return "undefined";
           } else {
             return "undefined";
           }

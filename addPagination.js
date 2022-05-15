@@ -14,9 +14,11 @@ colors.setTheme({
 });
 const addPaginationComponent = (
   componentName,
+  schemaName,
   paginationKey,
   totalEntriesKey
 ) => {
+  console.log("schemaName: ", schemaName);
   const filesToModify = [
     // Create sagas
     {
@@ -58,6 +60,7 @@ const addPaginationComponent = (
         ],
       ],
     },
+    // Update ducks
     {
       sourceFilePath: `./src/${toCamelCaseString(
         componentName
@@ -66,6 +69,23 @@ const addPaginationComponent = (
         componentName
       )}/ducks/index.js`,
       babelPlugins: [`${__dirname}/babelPlugin/addPagination/ducks/index.js`],
+    },
+    {
+      sourceFilePath: `./src/${toCamelCaseString(
+        componentName
+      )}/ducks/${toCamelCaseString(schemaName)}.js`,
+      destinationFilePath: `./src/${toCamelCaseString(
+        componentName
+      )}/ducks/${toCamelCaseString(schemaName)}.js`,
+      babelPlugins: [
+        [
+          `${__dirname}/babelPlugin/addPagination/ducks/record.js`,
+          {
+            componentName: componentName,
+            schemaName: schemaName,
+          },
+        ],
+      ],
     },
 
     {
@@ -80,7 +100,12 @@ const addPaginationComponent = (
         componentName
       )}/components/App.jsx`,
       babelPlugins: [
-        `${__dirname}/babelPlugin/addPagination/components/App.js`,
+        [
+          `${__dirname}/babelPlugin/addPagination/components/App.js`,
+          {
+            componentName: componentName,
+          },
+        ],
       ],
     },
     // definitions
@@ -101,7 +126,15 @@ const addPaginationComponent = (
       destinationFilePath: `./src/${toCamelCaseString(
         componentName
       )}/constants.js`,
-      babelPlugins: [[`${__dirname}/babelPlugin/addPagination/constants.js`]],
+      babelPlugins: [
+        [
+          `${__dirname}/babelPlugin/addPagination/constants.js`,
+          {
+            componentName: componentName,
+            schemaName: schemaName,
+          },
+        ],
+      ],
     },
     {
       sourceFilePath: `${__dirname}/babelPlugin/addPagination/containers/App.js`,
@@ -149,18 +182,12 @@ const compileFileWithBabelPlugin = (
     babelrc: false,
     configFile: false,
   });
-  fs.writeFileSync(
-    destinationFilePath,
-    transformFromAstSync.code,
-    "utf8",
-    function () {
-      var cmd = `eslint ${destinationFilePath} --fix`;
-      exec(cmd, function (error, stdout, stderr) {
-        if (error) console.log(error);
-        // command output is in stdout
-      });
-    }
-  );
+  fs.writeFileSync(destinationFilePath, transformFromAstSync.code, "utf8");
+  var cmd = `eslint ${destinationFilePath} --fix`;
+  exec(cmd, function (error, stdout, stderr) {
+    if (error) console.log(error);
+    // command output is in stdout
+  });
 };
 
 module.exports = {

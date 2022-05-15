@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import { FILTER_PARAM_NAME } from '../constants';
+import { URL_REGEXPS } from '../constants';
 import {{ toCamelCaseAndCapitalize componentName }}s from '../containers/{{ toCamelCaseAndCapitalize  componentName }}s';
 import Loading from './Loading';
 import LoadingRequest from './LoadingRequest';
@@ -16,7 +16,7 @@ class App extends React.Component<AppProps> {
     if (nextProps.url !== this.props.url) {
       const queryParams = new URLSearchParams(window.location.search)
       
-      queryParams.set(FILTER_PARAM_NAME, `/${nextProps.url}`)
+      queryParams.set(URL_REGEXPS.filterParamsKey, `/${nextProps.url}`)
       window.history.pushState(nextProps.url, 'My App', '?' + queryParams)
     }
   }

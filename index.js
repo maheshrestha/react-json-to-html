@@ -157,6 +157,7 @@ async function getFilesToWrite(arguments) {
 
 async function createComponent(arguments) {
   const apiListOutput = await getJosnInputToCreateModule(arguments);
+
   makeDirs(toCamelCaseString(arguments.componentName));
   var returnValues = "";
   const recordApiOutput = apiListOutput;

@@ -7,7 +7,5 @@ export const DATA_DELETE_ENDPOINT_GET = "{{ dataDeleteEndPointGet }}";
 export const ORDER_DESC = "DESC";
 export const ORDER_ASC = "ASC";
 
-export const URL_REGEXPS = {
-  prefix: "",
-};
-export const FILTER_PARAM_NAME = "{{ filterParamName }}";
+export const URL_REGEXPS = {};
+// export const FILTER_PARAM_NAME = "{{ filterParamName }}";

@@ -12,13 +12,12 @@ function getStateReadyNumber(val: string): ?number {
 function* setPaginationFromUrlSaga({
   urlRegexps,
 }: {
-  prefix: string,
   pagination: string,
   filter: string,
 }): Saga<void> {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
-  const paginationFilters = urlParams.get(FILTER_PARAM_NAME);
+  const paginationFilters = urlParams.get(urlRegexps.filterParamsKey);
 
   if (!paginationFilters) {
     return;
@@ -41,7 +40,6 @@ const types = {
   SET_PAGINATION_FROM_URL: "sagas/pagination/SET_PAGINATION_FROM_URL",
 };
 export function setPaginationFromUrl(urlRegexps: {
-  prefix: string,
   pagination: string,
   filter: string,
 }): {

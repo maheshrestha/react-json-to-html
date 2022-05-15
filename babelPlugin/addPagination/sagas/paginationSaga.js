@@ -8,14 +8,14 @@ module.exports = function (babel) {
     name: "saga/paginationSaga", // not required
     visitor: {
       Program(path, state) {
-        const b = path.node.body;
-        generateImportDeclaration(
-          t,
-          b,
-          "FILTER_PARAM_NAME",
-          "FILTER_PARAM_NAME",
-          `../../${state.opts.componentName}/constants`
-        );
+        // const b = path.node.body;
+        // generateImportDeclaration(
+        //   t,
+        //   b,
+        //   "FILTER_PARAM_NAME",
+        //   "FILTER_PARAM_NAME",
+        //   `../../${state.opts.componentName}/constants`
+        // );
       },
     },
   };

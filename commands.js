@@ -18,6 +18,8 @@ colors.setTheme({
 
 const { createComponent } = require("./index");
 const { pathToComponentTemplate, toCamelCaseString } = require("./helper.js");
+const { getJosnInputToCreateModule } = require("./apiOutput.js");
+const axios = require("axios");
 const validateUniqueComponentName = (input, done) => {
   const componentPath = `./src/${toCamelCaseString(input)}`;
   if (fs.existsSync(componentPath)) {
@@ -39,6 +41,19 @@ const validateComponentName = (input, done) => {
   }
   done(null, true);
 };
+const validateEndpoint = async (input, done) => {
+  await axios
+    .get(input)
+    .then((response) => {
+      if (typeof response.data !== "object") {
+        done("Data List Endpoint must return a valid json");
+        return;
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
 const questions = [
   {
     type: "input",
@@ -53,6 +68,9 @@ const questions = [
     type: "input",
     name: "dataReadEndPointGet",
     message: "Data List Endpoint (get method)",
+    // validate: function (input) {
+    //   validateEndpoint(input, this.async());
+    // },
   },
 ];
 const addPaginationQuestions = [
@@ -74,6 +92,12 @@ const addPaginationQuestions = [
     type: "input",
     name: "totalEntriesKey",
     message: "Total Entries Key",
+  },
+  {
+    type: "input",
+    name: "schemaName",
+    message:
+      "Key of the array of objects that will be affacted by this pagination",
   },
 ];
 
@@ -146,7 +170,7 @@ program
   .action(() => {
     prompt(addPaginationQuestions).then(async (answers) => {
       try {
-        const { componentName, totalEntriesKey } = answers;
+        const { componentName, schemaName, totalEntriesKey } = answers;
         const paginationKey = answers.paginationKey
           ? answer.paginationKey
           : `${componentName}_api`;
@@ -170,6 +194,7 @@ program
         );
         await addPaginationComponent(
           componentName,
+          schemaName,
           paginationKey,
           totalEntriesKey
         );

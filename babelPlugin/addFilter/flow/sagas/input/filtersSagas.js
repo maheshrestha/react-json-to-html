@@ -2,11 +2,7 @@
 import { takeEvery, put } from "redux-saga/effects";
 import type { Saga } from "redux-saga";
 import moment from "moment";
-import {
-  URL_NULL_PLACEHOLDER,
-  URL_REGEXPS,
-  FILTER_PARAM_NAME,
-} from "../constants";
+import { URL_NULL_PLACEHOLDER, URL_REGEXPS } from "../constants";
 import { getSlugsFromUrl } from "../../common/helpers/slugs";
 
 function getStateReadyString(val: string): ?string {
@@ -30,7 +26,7 @@ function getStateReadyDate(val: string, format: string = "YYYYMMDD"): ?Moment {
 function* setFiltersFromUrlSaga(): Saga<void> {
   const filterQueries = window.location.search;
   const urlParams = new URLSearchParams(filterQueries);
-  const myFilter = urlParams.get(FILTER_PARAM_NAME);
+  const myFilter = urlParams.get(URL_REGEXPS.filterParamsKey);
   if (!myFilter) {
     return;
   }

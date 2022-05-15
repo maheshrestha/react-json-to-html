@@ -4,12 +4,16 @@ async function getJosnInputToCreateModule({
   dataReadEndPointGet,
   componentName,
 }) {
+  console.log(("dataReadEndPointGet: ", dataReadEndPointGet));
   return axios
     .get(dataReadEndPointGet)
     .then((response) => {
-      return Array.isArray(response.data)
-        ? { [`${componentName}`]: response.data }
-        : { [`${componentName}_api`]: response.data };
+      // console.log("response: ", response);
+      return typeof response.data === "object"
+        ? Array.isArray(response.data)
+          ? { [`${componentName}`]: response.data }
+          : { [`${componentName}_api`]: response.data }
+        : false;
       // return depthFirstArrayOfObject(response.data);
     })
     .catch((error) => {

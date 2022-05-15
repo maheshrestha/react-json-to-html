@@ -39,9 +39,10 @@
     "url": "git+ssh://git@github.com/maheshrestha/react-json-to-html.git"
   },
   "keywords": [
-    "React",
+    "CLI",
     "json",
-    "to",
+    "React",
+    "json to React Module",
     "html"
   ],
   "bugs": {
